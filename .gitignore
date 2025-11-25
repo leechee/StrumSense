@@ -1,0 +1,14 @@
+node_modules
+.next
+.env.local
+.env
+.vercel
+dist
+build
+*.log
+uploads/
+.DS_Store
+.claude
+.claude.json
+data/user-history.json
+venv/

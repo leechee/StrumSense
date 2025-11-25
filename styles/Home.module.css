@@ -1,0 +1,492 @@
+.container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #333;
+}
+
+.main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+  color: white;
+}
+
+.title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin: 0;
+  background: linear-gradient(135deg, #fff 0%, #f0f0f0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  margin-top: 0.5rem;
+  opacity: 0.95;
+  font-weight: 300;
+}
+
+.uploadSection {
+  background: white;
+  border-radius: 20px;
+  padding: 2.5rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  margin-bottom: 2rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.fileUpload {
+  position: relative;
+}
+
+.fileLabel {
+  cursor: pointer;
+}
+
+.uploadBox {
+  border: 3px dashed #667eea;
+  border-radius: 15px;
+  padding: 3rem 2rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  background: #f8f9ff;
+}
+
+.uploadBox:hover {
+  border-color: #764ba2;
+  background: #f0f2ff;
+}
+
+.uploadIcon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.fileName {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #667eea;
+  margin-bottom: 0.5rem;
+}
+
+.fileSize {
+  display: block;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.fileHint {
+  font-size: 0.9rem;
+  color: #999;
+  margin: 0.5rem 0 0 0;
+}
+
+.fileInput {
+  display: none;
+}
+
+.moodSelector {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.moodLabel {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.moodGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.8rem;
+}
+
+.moodButton {
+  padding: 0.8rem 1.2rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 25px;
+  background: white;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  text-transform: capitalize;
+}
+
+.moodButton:hover {
+  border-color: #667eea;
+  background: #f8f9ff;
+}
+
+.moodButtonActive {
+  border-color: #667eea;
+  background: #667eea;
+  color: white;
+}
+
+.submitButton {
+  padding: 1.2rem 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.submitButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+.submitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.error {
+  background: #fee;
+  color: #c33;
+  padding: 1rem;
+  border-radius: 10px;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.loading {
+  background: white;
+  border-radius: 20px;
+  padding: 3rem;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loadingHint {
+  color: #999;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.results {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.analysisSection {
+  background: white;
+  border-radius: 20px;
+  padding: 2.5rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.analysisSection h2 {
+  color: #667eea;
+  margin: 0 0 1.5rem 0;
+  font-size: 2rem;
+}
+
+.vibeDescription {
+  background: #f8f9ff;
+  padding: 1.5rem;
+  border-radius: 15px;
+  margin-bottom: 2rem;
+  border-left: 4px solid #667eea;
+}
+
+.vibeDescription p {
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #555;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stat {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 1.5rem;
+  border-radius: 15px;
+  text-align: center;
+  color: white;
+}
+
+.statLabel {
+  display: block;
+  font-size: 0.9rem;
+  opacity: 0.9;
+  margin-bottom: 0.5rem;
+}
+
+.statValue {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.recognizedSong {
+  margin-top: 2rem;
+}
+
+.recognizedSong h3 {
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.songCard {
+  background: #f0f7ff;
+  padding: 1.5rem;
+  border-radius: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px solid #667eea;
+}
+
+.songInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.confidence {
+  background: #667eea;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.recommendationsSection {
+  background: white;
+  border-radius: 20px;
+  padding: 2.5rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.recommendationsSection h2 {
+  color: #667eea;
+  margin: 0 0 0.5rem 0;
+  font-size: 2rem;
+}
+
+.recDescription {
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+.songsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.songRecommendation {
+  background: #f8f9ff;
+  border-radius: 15px;
+  padding: 1.5rem;
+  border: 2px solid #e0e7ff;
+  transition: all 0.3s ease;
+}
+
+.songRecommendation:hover {
+  border-color: #667eea;
+  box-shadow: 0 5px 20px rgba(102, 126, 234, 0.2);
+  transform: translateY(-2px);
+}
+
+.songHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.rankBadge {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.songMainInfo {
+  flex: 1;
+}
+
+.songTitle {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #333;
+}
+
+.songArtist {
+  margin: 0.3rem 0 0 0;
+  color: #666;
+  font-size: 1rem;
+}
+
+.matchScore {
+  background: #667eea;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.songDetails {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.detailsRow {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.detailLabel {
+  font-weight: 600;
+  color: #667eea;
+}
+
+.difficultyBadge {
+  background: #764ba2;
+  color: white;
+  padding: 0.2rem 0.8rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  text-transform: capitalize;
+}
+
+.chords {
+  margin: 1rem 0;
+}
+
+.chordList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.chord {
+  background: white;
+  border: 2px solid #667eea;
+  color: #667eea;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.matchReasons {
+  margin: 1rem 0;
+}
+
+.reasonsList {
+  margin: 0.5rem 0 0 0;
+  padding-left: 1.5rem;
+  color: #555;
+  font-size: 0.95rem;
+}
+
+.reasonsList li {
+  margin-bottom: 0.3rem;
+}
+
+.techniques {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.techniqueBadge {
+  background: #e0e7ff;
+  color: #667eea;
+  padding: 0.4rem 0.8rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.footer {
+  text-align: center;
+  padding: 2rem;
+  color: white;
+  opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 2.5rem;
+  }
+
+  .uploadSection,
+  .analysisSection,
+  .recommendationsSection {
+    padding: 1.5rem;
+  }
+
+  .moodGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .songDetails {
+    grid-template-columns: 1fr;
+  }
+}
