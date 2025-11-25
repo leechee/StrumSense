@@ -18,9 +18,9 @@ conda run -n strumsense pip install librosa numpy scipy
 ```
 
 4. **Set up your OpenAI API Key**:
-   - Open `.env.local`
-   - Replace `your_openai_api_key_here` with your actual OpenAI API key
-   - Get one at: https://platform.openai.com/api-keys
+ - Open `.env.local`
+ - Replace `your_openai_api_key_here` with your actual OpenAI API key
+ - Get one at: https://platform.openai.com/api-keys
 
 5. **Start the development server**:
 ```bash
@@ -28,9 +28,9 @@ npm run dev
 ```
 
 6. **Open the app**:
-   - Navigate to http://localhost:3000
-   - Upload an acoustic guitar recording
-   - Get personalized song recommendations!
+ - Navigate to http://localhost:3000
+ - Upload an acoustic guitar recording
+ - Get personalized song recommendations!
 
 ## Testing the App
 
@@ -43,10 +43,10 @@ You can test with:
 ### What to Expect
 1. Upload takes ~10-30 seconds to analyze
 2. You'll see:
-   - Your playing style analysis (tempo, key, difficulty)
-   - Possible song recognition (if confident)
-   - 10 recommended songs to cover
-   - Match reasons for each recommendation
+ - Your playing style analysis (tempo, key, difficulty)
+ - Possible song recognition (if confident)
+ - 10 recommended songs to cover
+ - Match reasons for each recommendation
 
 ### Mood Options
 Try different moods to get varied recommendations:
@@ -95,4 +95,4 @@ Try different moods to get varied recommendations:
 3. Upload multiple covers to build your user profile
 4. Check your profile in `data/user-history.json`
 
-Enjoy discovering your next acoustic cover! ¸
+Enjoy discovering your next acoustic cover! 

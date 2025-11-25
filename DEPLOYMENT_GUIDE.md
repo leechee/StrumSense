@@ -16,31 +16,31 @@ OpenAI API is **NOT free**, but you get:
 ### How to Get Your API Key:
 
 1. **Go to OpenAI Platform**
-   - Visit: https://platform.openai.com/
+ - Visit: https://platform.openai.com/
 
 2. **Create Account / Sign In**
-   - Sign up with email or Google account
-   - Verify your email address
+ - Sign up with email or Google account
+ - Verify your email address
 
 3. **Add Payment Method** (required after free credits)
-   - Go to: https://platform.openai.com/settings/organization/billing
-   - Add credit card
-   - Set spending limits (recommended: $5-10/month for testing)
+ - Go to: https://platform.openai.com/settings/organization/billing
+ - Add credit card
+ - Set spending limits (recommended: $5-10/month for testing)
 
 4. **Create API Key**
-   - Go to: https://platform.openai.com/api-keys
-   - Click "Create new secret key"
-   - Name it: "StrumSense"
-   - **Copy the key immediately** (you can't see it again!)
-   - It looks like: `sk-proj-xxxxxxxxxxxxxxxxxxxxx`
+ - Go to: https://platform.openai.com/api-keys
+ - Click "Create new secret key"
+ - Name it: "StrumSense"
+ - **Copy the key immediately** (you can't see it again!)
+ - It looks like: `sk-proj-xxxxxxxxxxxxxxxxxxxxx`
 
 5. **Add to Your Project**
-   - Open `.env.local` in StrumSense folder
-   - Replace `your_openai_api_key_here` with your actual key
-   - Save the file
+ - Open `.env.local` in StrumSense folder
+ - Replace `your_openai_api_key_here` with your actual key
+ - Save the file
 
 6. **Check Your Usage**
-   - Monitor at: https://platform.openai.com/usage
+ - Monitor at: https://platform.openai.com/usage
 
 ---
 
@@ -73,22 +73,22 @@ gh repo create StrumSense --public --source=. --remote=origin --push
 1. Go to https://github.com/new
 
 2. **Repository settings:**
-   - Name: `StrumSense`
-   - Description: `AI-powered acoustic guitar cover recommendation app`
-   - Visibility: Public (or Private)
-   - **Don't** initialize with README (we already have one)
+ - Name: `StrumSense`
+ - Description: `AI-powered acoustic guitar cover recommendation app`
+ - Visibility: Public (or Private)
+ - **Don't** initialize with README (we already have one)
 
 3. Click "Create repository"
 
 4. **Connect your local repo:**
-   ```bash
-   # Replace YOUR_USERNAME with your GitHub username
-   git remote add origin https://github.com/YOUR_USERNAME/StrumSense.git
+ ```bash
+ # Replace YOUR_USERNAME with your GitHub username
+ git remote add origin https://github.com/YOUR_USERNAME/StrumSense.git
 
-   git branch -M main
+ git branch -M main
 
-   git push -u origin main
-   ```
+ git push -u origin main
+ ```
 
 ### Step 3: Verify Upload
 
@@ -146,40 +146,40 @@ You'll get a production URL like: `https://strumsense.vercel.app`
 ### Method 1: Using Vercel Dashboard (Recommended)
 
 1. **Go to Vercel Dashboard**
-   - Visit: https://vercel.com/dashboard
-   - Click on your `strumsense` project
+ - Visit: https://vercel.com/dashboard
+ - Click on your `strumsense` project
 
 2. **Add Environment Variables**
-   - Go to: **Settings** → **Environment Variables**
+ - Go to: **Settings** → **Environment Variables**
 
-   - Add `OPENAI_API_KEY`:
-     - Name: `OPENAI_API_KEY`
-     - Value: `sk-proj-xxxxxxxxxxxxx` (your actual key)
-     - Environment: Check all (Production, Preview, Development)
-     - Click "Save"
+ - Add `OPENAI_API_KEY`:
+ - Name: `OPENAI_API_KEY`
+ - Value: `sk-proj-xxxxxxxxxxxxx` (your actual key)
+ - Environment: Check all (Production, Preview, Development)
+ - Click "Save"
 
 3. **Enable Analytics** (should already be enabled via vercel.json)
-   - Go to: **Analytics** tab
-   - Verify it shows "Analytics Enabled"
-   - Click "Enable" if not already enabled
+ - Go to: **Analytics** tab
+ - Verify it shows "Analytics Enabled"
+ - Click "Enable" if not already enabled
 
 4. **Enable Speed Insights** (auto-enabled with package install)
-   - Go to: **Speed Insights** tab
-   - Verify it shows "Speed Insights Enabled"
-   - Should be automatically enabled since we installed `@vercel/speed-insights`
+ - Go to: **Speed Insights** tab
+ - Verify it shows "Speed Insights Enabled"
+ - Should be automatically enabled since we installed `@vercel/speed-insights`
 
 5. **Set Build Settings** (if needed)
-   - Go to: **Settings** → **General**
-   - Build Command: `npm run build` (should be auto-detected)
-   - Output Directory: `.next` (should be auto-detected)
-   - Install Command: `npm install` (should be auto-detected)
+ - Go to: **Settings** → **General**
+ - Build Command: `npm run build` (should be auto-detected)
+ - Output Directory: `.next` (should be auto-detected)
+ - Install Command: `npm install` (should be auto-detected)
 
 6. **Redeploy** (to apply environment variables)
-   - Go to: **Deployments** tab
-   - Click the "..." menu on latest deployment
-   - Click "Redeploy"
-   - Check "Use existing Build Cache"
-   - Click "Redeploy"
+ - Go to: **Deployments** tab
+ - Click the "..." menu on latest deployment
+ - Click "Redeploy"
+ - Check "Use existing Build Cache"
+ - Click "Redeploy"
 
 ### Method 2: Using Vercel CLI
 
@@ -216,13 +216,13 @@ This enables automatic deployments when you push to GitHub.
 6. Click "Import"
 
 7. **Configure Project:**
-   - Framework Preset: Next.js (should auto-detect)
-   - Root Directory: `./`
-   - Build Command: `npm run build`
-   - Output Directory: `.next`
+ - Framework Preset: Next.js (should auto-detect)
+ - Root Directory: `./`
+ - Build Command: `npm run build`
+ - Output Directory: `.next`
 
 8. **Add Environment Variables** (if not already added):
-   - `OPENAI_API_KEY` = your key
+ - `OPENAI_API_KEY` = your key
 
 9. Click "Deploy"
 
@@ -268,7 +268,7 @@ Go to Vercel dashboard and watch the deployment happen automatically!
 
 ### Python/Conda on Vercel
 
-⚠ **IMPORTANT**: Vercel serverless functions don't support conda environments directly.
+ **IMPORTANT**: Vercel serverless functions don't support conda environments directly.
 
 **For production deployment, you have two options:**
 
@@ -314,7 +314,7 @@ vercel remove strumsense
 # Git workflow
 git add .
 git commit -m "Your message"
-git push origin main  # Auto-deploys to Vercel if connected
+git push origin main # Auto-deploys to Vercel if connected
 ```
 
 ---
@@ -345,10 +345,10 @@ git push origin main  # Auto-deploys to Vercel if connected
 
 ## Next Steps After Deployment
 
-1.  Test the demo mode: `/api/demo?style=slow_fingerstyle`
-2.  Share your live URL!
-3.  Monitor analytics and speed insights
-4.  Add custom domain (optional)
-5.  Set up staging environment (optional)
+1. Test the demo mode: `/api/demo?style=slow_fingerstyle`
+2. Share your live URL!
+3. Monitor analytics and speed insights
+4. Add custom domain (optional)
+5. Set up staging environment (optional)
 
-Your app is now live! �
+Your app is now live! 

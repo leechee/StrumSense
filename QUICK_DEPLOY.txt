@@ -1,0 +1,93 @@
+==========================================
+STRUMSENSE - QUICK DEPLOYMENT COMMANDS
+==========================================
+
+STEP 1: PUSH TO GITHUB
+==========================================
+
+cd "c:\Users\jasom\Documents\Coding Projects\StrumSense"
+
+git init
+
+git add .
+
+git commit -m "Initial commit: StrumSense - free AI acoustic cover app"
+
+# Now create GitHub repo at: https://github.com/new
+# Name: StrumSense
+# Don't initialize with README
+# Click "Create repository"
+
+# Replace YOUR_USERNAME with your GitHub username:
+git remote add origin https://github.com/YOUR_USERNAME/StrumSense.git
+
+git branch -M main
+
+git push -u origin main
+
+
+STEP 2: DEPLOY TO VERCEL
+==========================================
+
+EASIEST WAY - USE DASHBOARD:
+---------------------------
+1. Go to https://vercel.com/
+2. Sign up with GitHub
+3. Click "Add New" > "Project"
+4. Import StrumSense repository
+5. Click "Deploy"
+6. Done!
+
+OR USE CLI:
+---------------------------
+npm install -g vercel
+
+vercel login
+
+vercel --prod
+
+
+TEST YOUR DEPLOYMENT
+==========================================
+
+Health Check:
+https://your-app.vercel.app/api/health
+
+Demo Mode:
+https://your-app.vercel.app/api/demo?style=slow_fingerstyle&mood=chill
+
+Main App:
+https://your-app.vercel.app
+
+
+FUTURE UPDATES
+==========================================
+
+git add .
+
+git commit -m "Your update message"
+
+git push origin main
+
+# Auto-deploys to Vercel!
+
+
+KEY POINTS
+==========================================
+
+- NO API keys needed
+- NO environment variables needed
+- Analytics already enabled
+- Speed Insights already enabled
+- 100% free forever
+- Just deploy and it works!
+
+
+DONE!
+==========================================
+
+Your app is live and completely free to run.
+
+For detailed instructions, see:
+- DEPLOYMENT_INSTRUCTIONS.md
+- GITHUB_AND_VERCEL_SETUP.md

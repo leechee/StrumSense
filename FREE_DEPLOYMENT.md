@@ -1,29 +1,29 @@
-# ¸ StrumSense - 100% Free Deployment Guide
+# StrumSense - 100% Free Deployment Guide
 
-##  No API Keys Required!
+## No API Keys Required!
 
 **Great news!** StrumSense is completely free for all users. No API keys, no costs, no limits.
 
 ### How It Works (Free Version)
 
 1. **Audio Analysis** - Uses librosa (ML library that runs locally)
-   - Extracts tempo, key, chords, vibe
-   - Runs on your server (no external API calls)
-   - 100% free and private
+ - Extracts tempo, key, chords, vibe
+ - Runs on your server (no external API calls)
+ - 100% free and private
 
 2. **Song Recognition** - Uses intelligent rule-based pattern matching
-   - Matches your playing against known song patterns
-   - No GPT/OpenAI needed
-   - Works offline once deployed
+ - Matches your playing against known song patterns
+ - No GPT/OpenAI needed
+ - Works offline once deployed
 
 3. **Recommendations** - Smart scoring algorithm
-   - Matches tempo, key, chords, mood, difficulty
-   - Learns from user history
-   - All computation done locally
+ - Matches tempo, key, chords, mood, difficulty
+ - Learns from user history
+ - All computation done locally
 
 ---
 
-## € Quick Deploy to Vercel (Free Tier)
+## Quick Deploy to Vercel (Free Tier)
 
 ### Step 1: Push to GitHub
 
@@ -58,7 +58,7 @@ git push -u origin main
 3. Click "Add New..." â†’ "Project"
 4. Import your StrumSense repository
 5. Click "Deploy"
-6. Done! ‰
+6. Done! 
 
 **Option B: Via CLI**
 
@@ -81,7 +81,7 @@ Your app is live at: `https://strumsense.vercel.app`
 
 ---
 
-## Š What You Get (All Free)
+## What You Get (All Free)
 
  **Unlimited audio uploads**
  **Unlimited recommendations**
@@ -100,7 +100,7 @@ Your app is live at: `https://strumsense.vercel.app`
 
 ---
 
-## ¯ Test Your Deployment
+## Test Your Deployment
 
 ### Health Check:
 ```
@@ -110,11 +110,11 @@ https://your-app.vercel.app/api/health
 Should return:
 ```json
 {
-  "status": "healthy",
-  "checks": {
-    "mode": "100% free - no API keys required",
-    "ai_engine": "librosa (local ML) + rule-based matching"
-  }
+ "status": "healthy",
+ "checks": {
+ "mode": "100% free - no API keys required",
+ "ai_engine": "librosa (local ML) + rule-based matching"
+ }
 }
 ```
 
@@ -132,7 +132,7 @@ Upload an acoustic guitar recording and get free recommendations!
 
 ---
 
-## § How the Free AI Works
+## How the Free AI Works
 
 ### Audio Analysis (Librosa)
 Librosa is a powerful music analysis library that uses machine learning:
@@ -156,8 +156,8 @@ Instead of expensive GPT-4, we use smart pattern matching:
 ### Why This Approach?
 
 **Free GPT Alternative:**
--  GPT-4: $0.03 per request = $30 per 1000 users
--  Pattern matching: $0 per request = $0 per unlimited users
+- GPT-4: $0.03 per request = $30 per 1000 users
+- Pattern matching: $0 per request = $0 per unlimited users
 
 **Benefits:**
 - No API rate limits
@@ -168,7 +168,7 @@ Instead of expensive GPT-4, we use smart pattern matching:
 
 ---
 
-## ¡ Making It Even Better (Optional)
+## Making It Even Better (Optional)
 
 Want to improve song recognition without costs?
 
@@ -178,17 +178,17 @@ Edit [lib/songRecognitionFree.js](lib/songRecognitionFree.js):
 
 ```javascript
 const songPatterns = [
-  {
-    title: "Your Favorite Song",
-    artist: "Artist Name",
-    pattern: {
-      tempo: [75, 90],  // BPM range
-      keys: ["G major", "Em"],
-      chords: ["G", "D", "Em", "C"],
-      vibe: ["mellow", "acoustic"]
-    }
-  },
-  // Add more patterns...
+ {
+ title: "Your Favorite Song",
+ artist: "Artist Name",
+ pattern: {
+ tempo: [75, 90], // BPM range
+ keys: ["G major", "Em"],
+ chords: ["G", "D", "Em", "C"],
+ vibe: ["mellow", "acoustic"]
+ }
+ },
+ // Add more patterns...
 ];
 ```
 
@@ -196,7 +196,7 @@ The more patterns you add, the better the recognition!
 
 ---
 
-## ± Share Your Free App
+## Share Your Free App
 
 Your app is completely free for anyone to use:
 - No sign-up required
@@ -212,7 +212,7 @@ Perfect for:
 
 ---
 
-## “ What You've Built
+## What You've Built
 
 A real AI music app that:
 - Uses actual machine learning (librosa)
@@ -226,7 +226,7 @@ A real AI music app that:
 
 ---
 
-## € Deploy Checklist
+## Deploy Checklist
 
 - [ ] Code pushed to GitHub
 - [ ] Deployed to Vercel
@@ -240,7 +240,7 @@ A real AI music app that:
 
 ---
 
-## ˆ Monitor Your Free App
+## Monitor Your Free App
 
 ### Vercel Dashboard:
 - **Analytics**: https://vercel.com/YOUR_USERNAME/strumsense/analytics
@@ -254,7 +254,7 @@ A real AI music app that:
 
 ---
 
-## ‰ You're Done!
+## You're Done!
 
 Your free, AI-powered acoustic cover recommendation app is live!
 
@@ -265,11 +265,11 @@ Share it with:
 - Anyone who loves acoustic music
 
 **Total cost: $0**
-**Total value: Priceless** ¸
+**Total value: Priceless** 
 
 ---
 
-## ¬ FAQ
+## FAQ
 
 **Q: Is this really free?**
 A: Yes! No API keys, no hidden costs.
@@ -291,4 +291,4 @@ A: For local development. Vercel handles Python in production automatically.
 
 ---
 
-Happy deploying! €¸
+Happy deploying! 

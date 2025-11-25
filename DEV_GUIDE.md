@@ -61,18 +61,18 @@ Edit `lib/acousticSongsDatabase.js`
 
 ```javascript
 {
-  title: "Song Name",
-  artist: "Artist Name",
-  difficulty: "beginner", // or intermediate, advanced
-  chords: ["G", "C", "D"],
-  keySignature: "G major",
-  tempo: 120,
-  vibe: ["upbeat", "bright"],
-  genre: ["pop"],
-  mood: ["happy", "energetic"],
-  strummingPattern: "down-down-up-up-down-up",
-  capo: 0,
-  techniques: ["strumming"]
+ title: "Song Name",
+ artist: "Artist Name",
+ difficulty: "beginner", // or intermediate, advanced
+ chords: ["G", "C", "D"],
+ keySignature: "G major",
+ tempo: 120,
+ vibe: ["upbeat", "bright"],
+ genre: ["pop"],
+ mood: ["happy", "energetic"],
+ strummingPattern: "down-down-up-up-down-up",
+ capo: 0,
+ techniques: ["strumming"]
 }
 ```
 
@@ -275,26 +275,26 @@ git push origin main
 
 ```json
 {
-  "user_id": {
-    "uploads": [
-      {
-        "timestamp": "2024-01-01T00:00:00Z",
-        "audioFeatures": { ... },
-        "recognizedSong": { ... }
-      }
-    ],
-    "preferences": {
-      "averageTempo": 85,
-      "favoriteKeys": { "G": 3, "C": 2 },
-      "commonChords": { "G": 5, "C": 4 },
-      "difficultyRange": { "min": 0, "max": 10 },
-      "genres": { "folk": 3 },
-      "moods": { "chill": 5 }
-    }
-  }
+ "user_id": {
+ "uploads": [
+ {
+ "timestamp": "2024-01-01T00:00:00Z",
+ "audioFeatures": { ... },
+ "recognizedSong": { ... }
+ }
+ ],
+ "preferences": {
+ "averageTempo": 85,
+ "favoriteKeys": { "G": 3, "C": 2 },
+ "commonChords": { "G": 5, "C": 4 },
+ "difficultyRange": { "min": 0, "max": 10 },
+ "genres": { "folk": 3 },
+ "moods": { "chill": 5 }
+ }
+ }
 }
 ```
 
 ---
 
-Happy coding! ¸
+Happy coding! 

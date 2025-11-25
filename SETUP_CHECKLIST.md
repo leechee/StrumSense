@@ -1,6 +1,6 @@
 # Setup Checklist
 
-##  Local Development Setup
+## Local Development Setup
 
 - [x] Node.js dependencies installed (`npm install`)
 - [x] Conda environment created (`strumsense` with Python 3.11)
@@ -11,7 +11,7 @@
 
 ---
 
-## ù Getting OpenAI API Key
+## Getting OpenAI API Key
 
 ### Quick Steps:
 1. Go to https://platform.openai.com/api-keys
@@ -28,7 +28,7 @@
 
 ---
 
-## Ä Git & GitHub Setup
+## Git & GitHub Setup
 
 ### Initialize and Push to GitHub
 
@@ -43,8 +43,8 @@ git add .
 git commit -m "Initial commit: StrumSense app"
 
 # 4. Create GitHub repo at https://github.com/new
-#    Name: StrumSense
-#    Don't initialize with README
+# Name: StrumSense
+# Don't initialize with README
 
 # 5. Connect and push (replace YOUR_USERNAME)
 git remote add origin https://github.com/YOUR_USERNAME/StrumSense.git
@@ -60,7 +60,7 @@ git push -u origin main
 
 ---
 
-##  Vercel Deployment
+## Vercel Deployment
 
 ### Deploy to Vercel
 
@@ -82,31 +82,31 @@ vercel --prod
 
 ---
 
-## ‚öô Vercel Configuration
+## Vercel Configuration
 
 ### In Vercel Dashboard (https://vercel.com/dashboard)
 
 1. **Add Environment Variables:**
-   - [ ] Go to Settings ‚Üí Environment Variables
-   - [ ] Add `OPENAI_API_KEY` (paste your key)
-   - [ ] Select all environments (Production, Preview, Development)
-   - [ ] Save
+ - [ ] Go to Settings ‚Üí Environment Variables
+ - [ ] Add `OPENAI_API_KEY` (paste your key)
+ - [ ] Select all environments (Production, Preview, Development)
+ - [ ] Save
 
 2. **Enable Analytics:**
-   - [ ] Go to Analytics tab
-   - [ ] Should show "Enabled" (auto-enabled via vercel.json)
+ - [ ] Go to Analytics tab
+ - [ ] Should show "Enabled" (auto-enabled via vercel.json)
 
 3. **Verify Speed Insights:**
-   - [ ] Go to Speed Insights tab
-   - [ ] Should show "Enabled" (auto-enabled via package)
+ - [ ] Go to Speed Insights tab
+ - [ ] Should show "Enabled" (auto-enabled via package)
 
 4. **Redeploy:**
-   - [ ] Go to Deployments tab
-   - [ ] Redeploy to apply environment variables
+ - [ ] Go to Deployments tab
+ - [ ] Redeploy to apply environment variables
 
 ---
 
-## ó Connect GitHub Auto-Deploy (Optional)
+## Connect GitHub Auto-Deploy (Optional)
 
 ### Steps:
 1. [ ] Go to Vercel Dashboard ‚Üí Add New ‚Üí Project
@@ -120,7 +120,7 @@ vercel --prod
 
 ---
 
-##  Testing Your Deployment
+## Testing Your Deployment
 
 ### Test Demo Mode (No Upload Required):
 ```
@@ -135,7 +135,7 @@ https://your-app.vercel.app/api/demo?style=slow_fingerstyle&mood=chill
 
 ---
 
-## ä Monitoring
+## Monitoring
 
 ### Check These URLs:
 
@@ -155,7 +155,7 @@ vercel logs
 
 ---
 
-## Ø Final Checklist
+## Final Checklist
 
 - [ ] OpenAI API key configured
 - [ ] Local dev working (`npm run dev`)
@@ -165,11 +165,11 @@ vercel logs
 - [ ] Analytics enabled
 - [ ] Speed Insights enabled
 - [ ] Demo mode tested
-- [ ] Shared URL with friends! ∏
+- [ ] Shared URL with friends! 
 
 ---
 
-## ± Your Live URLs
+## Your Live URLs
 
 After deployment, you'll have:
 
@@ -180,7 +180,7 @@ After deployment, you'll have:
 
 ---
 
-## ò Quick Troubleshooting
+## Quick Troubleshooting
 
 **OpenAI errors:**
 - Check key in Vercel environment variables
@@ -201,4 +201,4 @@ After deployment, you'll have:
 
 ---
 
-Ready to deploy! Ä
+Ready to deploy! 

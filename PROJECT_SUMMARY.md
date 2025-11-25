@@ -25,16 +25,16 @@ A fully functional AI-powered acoustic guitar cover recommendation web app that:
 
 ### 3. Smart Recommendation Engine
 - **Multi-factor scoring algorithm**:
-  - Tempo similarity (±10 BPM = best match)
-  - Key and chord overlap
-  - Vibe/mood matching
-  - Difficulty level alignment
-  - User preference history
+ - Tempo similarity (±10 BPM = best match)
+ - Key and chord overlap
+ - Vibe/mood matching
+ - Difficulty level alignment
+ - User preference history
 - **30+ curated songs** with complete metadata:
-  - Chords, tempo, key, capo position
-  - Difficulty ratings
-  - Playing techniques
-  - Genre and mood tags
+ - Chords, tempo, key, capo position
+ - Difficulty ratings
+ - Playing techniques
+ - Genre and mood tags
 
 ### 4. User Profile System
 - Tracks all uploads automatically
@@ -76,45 +76,45 @@ A fully functional AI-powered acoustic guitar cover recommendation web app that:
 ```
 StrumSense/
 ├── pages/
-│   ├── index.js                      # Main UI (React)
-│   ├── _app.js                       # Next.js wrapper
-│   └── api/
-│       ├── analyze-audio.js          # Audio upload & analysis
-│       ├── save-upload.js            # User history tracking
-│       ├── demo.js                   # Demo mode (no upload)
-│       └── health.js                 # Health check endpoint
+│ ├── index.js # Main UI (React)
+│ ├── _app.js # Next.js wrapper
+│ └── api/
+│ ├── analyze-audio.js # Audio upload & analysis
+│ ├── save-upload.js # User history tracking
+│ ├── demo.js # Demo mode (no upload)
+│ └── health.js # Health check endpoint
 │
 ├── lib/
-│   ├── acousticSongsDatabase.js      # 30+ songs with metadata
-│   ├── audioAnalyzer.js              # Node.js wrapper for Python
-│   ├── songRecognition.js            # OpenAI integration
-│   ├── recommendationEngine.js       # Scoring algorithm
-│   └── testData.js                   # Sample data for testing
+│ ├── acousticSongsDatabase.js # 30+ songs with metadata
+│ ├── audioAnalyzer.js # Node.js wrapper for Python
+│ ├── songRecognition.js # OpenAI integration
+│ ├── recommendationEngine.js # Scoring algorithm
+│ └── testData.js # Sample data for testing
 │
 ├── scripts/
-│   └── audio_analyzer.py             # Python audio analysis
+│ └── audio_analyzer.py # Python audio analysis
 │
 ├── styles/
-│   ├── globals.css                   # Global styles
-│   └── Home.module.css               # Component styles
+│ ├── globals.css # Global styles
+│ └── Home.module.css # Component styles
 │
-├── data/                              # Auto-generated
-│   └── user-history.json             # User profiles
+├── data/ # Auto-generated
+│ └── user-history.json # User profiles
 │
-├── uploads/                           # Auto-generated
-│   └── (temporary audio files)
+├── uploads/ # Auto-generated
+│ └── (temporary audio files)
 │
-├── package.json                       # Node dependencies
-├── requirements.txt                   # Python dependencies
-├── vercel.json                        # Vercel config
-├── next.config.js                     # Next.js config
-├── .env.local                         # Environment variables
-├── .gitignore                         # Git ignore rules
+├── package.json # Node dependencies
+├── requirements.txt # Python dependencies
+├── vercel.json # Vercel config
+├── next.config.js # Next.js config
+├── .env.local # Environment variables
+├── .gitignore # Git ignore rules
 │
-├── README.md                          # Full documentation
-├── QUICKSTART.md                      # Quick setup guide
-├── PROJECT_SUMMARY.md                 # This file
-└── setup-conda.bat                    # Automated setup script
+├── README.md # Full documentation
+├── QUICKSTART.md # Quick setup guide
+├── PROJECT_SUMMARY.md # This file
+└── setup-conda.bat # Automated setup script
 ```
 
 ## How It Works (End-to-End)
@@ -134,33 +134,33 @@ StrumSense/
 ### Scoring Components (Max 100 points)
 
 1. **Tempo Similarity** (25 pts max)
-   - Within ±10 BPM: 25 points
-   - Within ±20 BPM: 15 points
-   - Within ±30 BPM: 10 points
+ - Within ±10 BPM: 25 points
+ - Within ±20 BPM: 15 points
+ - Within ±30 BPM: 10 points
 
 2. **Key Similarity** (20 pts max)
-   - Exact key match: 20 points
-   - Related keys: 10 points
+ - Exact key match: 20 points
+ - Related keys: 10 points
 
 3. **Chord Overlap** (30 pts max)
-   - Based on chord matching ratio
+ - Based on chord matching ratio
 
 4. **Vibe Matching** (5 pts per match)
-   - Matches on: mellow, bright, upbeat, etc.
+ - Matches on: mellow, bright, upbeat, etc.
 
 5. **Mood Alignment** (30 pts max)
-   - Direct mood match: 30 points
-   - Related mood: 20 points
+ - Direct mood match: 30 points
+ - Related mood: 20 points
 
 6. **User Preferences** (up to 28 pts)
-   - Genre preference: 10 pts
-   - Mood preference: 5 pts each
-   - Tempo preference: 10 pts
-   - Key preference: 8 pts
+ - Genre preference: 10 pts
+ - Mood preference: 5 pts each
+ - Tempo preference: 10 pts
+ - Key preference: 8 pts
 
 7. **Difficulty Match** (15 pts max)
-   - Same level: 15 points
-   - One level off: 8 points
+ - Same level: 15 points
+ - One level off: 8 points
 
 ## Song Database Highlights
 
@@ -302,4 +302,4 @@ Environment variables needed:
 
 ---
 
-**Built with AI to help guitarists discover their next acoustic cover!** �
+**Built with AI to help guitarists discover their next acoustic cover!** 
