@@ -3,11 +3,36 @@ import json
 import librosa
 import numpy as np
 import warnings
+from scipy.ndimage import maximum_filter, generate_binary_structure, iterate_structure
 warnings.filterwarnings('ignore')
+
+def generate_fingerprint(y, sr):
+    """Generate simplified audio fingerprint - faster version"""
+    try:
+        # Use chromagram for faster fingerprinting
+        chroma = librosa.feature.chroma_cqt(y=y, sr=sr, hop_length=1024)
+
+        # Create simple hash from chroma peaks over time
+        fingerprint_data = []
+        for i in range(min(50, chroma.shape[1])):  # Limit to 50 time frames
+            frame = chroma[:, i]
+            top_bins = np.argsort(frame)[-3:][::-1]  # Top 3 bins
+            fingerprint_data.append(tuple(top_bins.tolist()))
+
+        return {
+            'type': 'chroma_peaks',
+            'data': fingerprint_data,
+            'length': len(fingerprint_data)
+        }
+    except:
+        return None
 
 def analyze_audio(file_path):
     try:
         y, sr = librosa.load(file_path, duration=60, sr=22050)
+
+        # Generate fingerprint
+        fingerprint = generate_fingerprint(y, sr)
 
         tempo, beats = librosa.beat.beat_track(y=y, sr=sr)
 
@@ -98,7 +123,8 @@ def analyze_audio(file_path):
                 'rolloff': rolloff_mean,
                 'zcr': zcr_mean
             },
-            'mfcc': mfcc_mean
+            'mfcc': mfcc_mean,
+            'fingerprint': fingerprint
         }
 
         return result

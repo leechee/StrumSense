@@ -1,42 +1,34 @@
-# StrumSense 
+# StrumSense
 
-## 100% FREE Acoustic Cover Recommendation App
-
-An AI-powered app that analyzes your guitar playing and suggests personalized songs to cover - **completely free with no API costs!**
+AI-powered acoustic guitar cover recommendation app that analyzes your playing and suggests personalized songs to learn.
 
 ## Features
 
-- **Audio Analysis**: Upload your acoustic cover and get instant analysis of tempo, key, chords, and playing style
-- **Song Recognition**: AI pattern matching attempts to identify what song you're playing
-- **Smart Recommendations**: Get 10 personalized song recommendations based on:
- - Musical similarity (tempo, key, chords)
- - Your selected mood
- - Playing difficulty
- - Your historical preferences
-- **User Profile**: Builds a taste profile over time based on your uploads
-- **Rich Database**: 30+ popular acoustic songs with detailed metadata
-- **100% Free**: No API keys, no costs, no limits!
+- **Audio Analysis**: Upload your acoustic guitar cover and get instant analysis of tempo, key, chords, and playing style
+- **Song Recognition**: Pattern matching to identify what song you're playing
+- **Smart Recommendations**: Get personalized song suggestions based on your playing style, musical characteristics, and mood preferences
+- **iTunes Integration**: Search millions of songs with album artwork and preview links
+- **Audio Fingerprinting**: Chromagram-based fingerprinting for enhanced audio analysis
 
 ## Tech Stack
 
-- **Frontend**: Next.js, React
+- **Frontend**: Next.js 14, React
 - **Backend**: Node.js API routes
-- **Audio Analysis**: Python with librosa (ML library - runs locally)
-- **AI**: Intelligent rule-based pattern matching (no API costs!)
-- **Deployment**: Vercel (free tier)
+- **Audio Analysis**: Python 3.11 with librosa (ML-based audio feature extraction)
+- **Music Database**: iTunes Search API
+- **Deployment**: Vercel
 
-## Quick Start
-
-### Prerequisites
+## Prerequisites
 
 - Node.js 18+
 - Python 3.11 (via Anaconda/Miniconda)
-- **No API keys needed!** 
+- Conda package manager
 
-### Installation
+## Installation
 
 1. Clone the repository:
 ```bash
+git clone https://github.com/yourusername/StrumSense.git
 cd StrumSense
 ```
 
@@ -50,7 +42,7 @@ npm install
 conda create -n strumsense python=3.11 -y
 ```
 
-4. Install Python audio analysis dependencies:
+4. Install Python dependencies:
 ```bash
 conda run -n strumsense pip install librosa numpy scipy
 ```
@@ -62,220 +54,125 @@ npm run dev
 
 6. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-**Note**: The app uses the `strumsense` conda environment automatically for audio analysis.
-
 ## Usage
 
-1. **Upload Audio**: Click or drag and drop your acoustic cover (MP3, WAV, M4A - max 10MB)
-2. **Select Mood** (optional): Choose a mood like happy, sad, chill, romantic, etc.
-3. **Get Recommendations**: Click "Get Recommendations" to analyze your playing
-4. **View Results**: See your playing style analysis and personalized song recommendations
+1. Upload your acoustic guitar cover (MP3, WAV, M4A - max 12MB)
+2. Optionally select a mood (happy, sad, chill, romantic, etc.)
+3. Click "Get Recommendations" to analyze your playing
+4. View your playing style analysis and personalized song recommendations with album artwork
 
 ## How It Works
 
-### Audio Analysis Pipeline (100% Free!)
+### Audio Analysis Pipeline
 
-1. **Feature Extraction** (Python/librosa ML):
- - Tempo detection using beat tracking
- - Key and mode identification (major/minor)
- - Chroma features for chord detection
- - Spectral analysis (brightness, energy)
- - Playing style detection (fingerstyle vs strumming)
- - **Runs locally - no API calls!**
+1. **Feature Extraction** (Python/librosa):
+   - Tempo detection using beat tracking
+   - Key and mode identification (major/minor)
+   - Chroma features for chord detection
+   - Spectral analysis (brightness, energy, zero-crossing rate)
+   - Playing style detection (fingerstyle vs strumming)
+   - Chromagram-based audio fingerprinting
 
-2. **Song Recognition** (Pattern Matching):
- - Analyzes audio features against known song patterns
- - Matches tempo ranges, keys, chords, and vibe
- - Generates confidence scores
- - **No GPT needed - completely free!**
+2. **Dynamic Music Search** (iTunes API):
+   - Builds intelligent search queries based on detected audio features
+   - Searches iTunes catalog for matching songs
+   - Returns songs with metadata, album artwork, and preview URLs
 
 3. **Recommendation Engine**:
- - Scores 30+ acoustic songs based on:
- - Tempo similarity (±10 BPM = highest score)
- - Key similarity (same key or related keys)
- - Chord overlap
- - Vibe/mood matching
- - Difficulty level
- - User preference history
- - Returns top 10 matches with detailed reasons
-
-4. **User Profiling**:
- - Tracks upload history
- - Learns preferred keys, tempos, genres
- - Improves recommendations over time
+   - Scores songs based on:
+     - Tempo similarity
+     - Key and mode matching
+     - Vibe/mood alignment
+     - Genre compatibility
+     - User preference history
+   - Returns top 10 matches with detailed reasoning
 
 ## Project Structure
 
 ```
 StrumSense/
 ├── pages/
-│ ├── index.js # Main UI
-│ ├── _app.js # Next.js app wrapper (with Analytics)
-│ └── api/
-│ ├── analyze-audio.js # Audio upload & analysis
-│ ├── save-upload.js # User history tracking
-│ ├── demo.js # Demo mode (no upload needed)
-│ └── health.js # Health check endpoint
-│
+│   ├── index.js              # Main UI
+│   ├── _app.js               # Next.js app wrapper with analytics
+│   └── api/
+│       ├── analyze-audio.js  # Audio upload & analysis endpoint
+│       ├── save-upload.js    # User history tracking
+│       ├── demo.js           # Demo mode
+│       └── health.js         # Health check
 ├── lib/
-│ ├── acousticSongsDatabase.js # 30+ songs with metadata
-│ ├── audioAnalyzer.js # Node.js wrapper for Python
-│ ├── songRecognitionFree.js # FREE pattern matching (no API!)
-│ ├── recommendationEngine.js # Scoring algorithm
-│ └── testData.js # Sample data
-│
+│   ├── audioAnalyzer.js      # Node.js wrapper for Python analysis
+│   ├── songRecognitionFree.js # Pattern-based song recognition
+│   ├── recommendationEngine.js # Recommendation scoring
+│   ├── dynamicMusicSearch.js # iTunes search integration
+│   ├── musicApiService.js    # iTunes API client
+│   ├── acousticSongsDatabase.js # Static song database & mood categories
+│   └── testData.js           # Sample data for testing
 ├── scripts/
-│ └── audio_analyzer.py # Python librosa analysis
-│
+│   └── audio_analyzer.py     # Python audio analysis with librosa
 ├── styles/
-│ ├── globals.css
-│ └── Home.module.css
-│
-└── Documentation
- ├── README.md # This file
- ├── FREE_DEPLOYMENT.md # Free deployment guide
- ├── QUICKSTART.md # Quick setup
- ├── DEV_GUIDE.md # Developer reference
- └── PROJECT_SUMMARY.md # Detailed overview
+│   ├── globals.css
+│   └── Home.module.css
+└── assets/
+    └── free.mp3              # Test audio file
 ```
 
-## Song Database
+## Deployment
 
-30+ carefully curated acoustic songs including:
+### Vercel Deployment
 
-- **Classics**: Wonderwall, Blackbird, Hotel California, Tears in Heaven
-- **Modern**: Thinking Out Loud, Riptide, Let Her Go, Say You Won't Let Go
-- **Folk**: Fast Car, The Boxer, Landslide, Hallelujah
-- **Indie**: Ho Hey, Skinny Love, Budapest, Home
-- **And more!**
-
-Each with complete metadata:
-- Chords, tempo, key, capo position
-- Difficulty ratings (beginner/intermediate/advanced)
-- Playing techniques
-- Genre and mood tags
-
-## Deploy for Free
-
-### Quick Deploy to Vercel (Free Tier)
-
+1. Push to GitHub:
 ```bash
-# 1. Push to GitHub
-git init
 git add .
 git commit -m "Initial commit"
-git remote add origin https://github.com/YOUR_USERNAME/StrumSense.git
-git push -u origin main
+git push origin main
+```
 
-# 2. Deploy to Vercel
+2. Deploy to Vercel:
+```bash
 npm install -g vercel
 vercel login
 vercel --prod
 ```
 
-**No environment variables needed!** Just deploy and it works.
+The app is configured for Vercel deployment with:
+- `vercel.json` configuration
+- Python runtime support via `requirements.txt`
+- Automatic environment detection (conda locally, Python 3.11 on Vercel)
 
-See [FREE_DEPLOYMENT.md](FREE_DEPLOYMENT.md) for detailed instructions.
+## Environment Variables
 
-## Built-in Analytics (Free)
+No API keys or environment variables required for basic functionality. The app uses the free iTunes Search API.
 
-- **Vercel Analytics** - Track page views and visitors
-- **Speed Insights** - Monitor performance metrics
-- **User Profiles** - Track preferences locally
+## Development
 
-All included and configured!
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm start` - Start production server
 
-## Why This Approach?
+## API Endpoints
 
-**Free vs Paid Comparison:**
+- `POST /api/analyze-audio` - Analyze uploaded audio file
+- `POST /api/save-upload` - Save user upload history
+- `GET /api/demo?style=slow_fingerstyle&mood=chill` - Demo mode
+- `GET /api/health` - Health check
 
-| Feature | With OpenAI API | With Pattern Matching (This App) |
-|---------|----------------|----------------------------------|
-| **Cost per user** | $0.03-0.04 | $0.00 |
-| **1000 users** | $30-40 | $0 |
-| **API limits** | Yes | No |
-| **Response time** | 3-5 seconds | < 1 second |
-| **Privacy** | Data sent to OpenAI | 100% local |
-| **Offline capable** | No | Yes (after deploy) |
+## Audio Analysis Features
 
-**Benefits:**
-- Completely free for unlimited users
-- Faster responses (no API latency)
-- More private (no data sharing)
-- No rate limits
-- More reliable (no API downtime)
-
-## Future Enhancements
-
-Potential free additions:
-- Browser-based audio recording
-- More song patterns (expand the database!)
-- Chord progression visualization
-- Practice tracking
-- Social sharing
-- Mobile app version
+The Python audio analyzer extracts:
+- **Tempo**: BPM detection
+- **Key**: Musical key (C, D, E, etc.)
+- **Mode**: Major or minor
+- **Chords**: Likely chord progression
+- **Brightness**: Spectral centroid
+- **Energy**: RMS energy level
+- **Vibe Tags**: Descriptive characteristics (e.g., dark, bright, mellow, energetic)
+- **Playing Style**: Fingerstyle detection
+- **Fingerprint**: Chromagram-based audio fingerprint
 
 ## License
 
-MIT License - Free to use, modify, and distribute!
+MIT
 
 ## Contributing
 
-Want to add more song patterns? PRs welcome!
-
-Each pattern is simple:
-```javascript
-{
- title: "Song Name",
- artist: "Artist",
- pattern: {
- tempo: [min, max],
- keys: ["G major"],
- chords: ["G", "C", "D"],
- vibe: ["upbeat", "bright"]
- }
-}
-```
-
-## Tips for Best Results
-
-- Upload 30-60 seconds of clear audio
-- Play cleanly for better chord detection
-- Try different moods for varied recommendations
-- Upload multiple covers to build your profile
-
-## Troubleshooting
-
-### Python/Conda Issues
-- Make sure conda environment `strumsense` exists
-- Run: `conda create -n strumsense python=3.11 -y`
-- Install libraries: `conda run -n strumsense pip install librosa numpy scipy`
-
-### Audio Upload Fails
-- Check file size (max 10MB)
-- Supported formats: MP3, WAV, M4A
-
-### No Recommendations
-- Check Python script is working: `conda run -n strumsense python scripts/audio_analyzer.py`
-- Try demo mode: `/api/demo?style=slow_fingerstyle&mood=chill`
-
-## Documentation
-
-- [FREE_DEPLOYMENT.md](FREE_DEPLOYMENT.md) - Deploy for free guide
-- [QUICKSTART.md](QUICKSTART.md) - Quick setup
-- [DEV_GUIDE.md](DEV_GUIDE.md) - Developer reference
-- [PROJECT_SUMMARY.md](PROJECT_SUMMARY.md) - Detailed overview
-
-## Live Demo
-
-After deployment, test these endpoints:
-
-- **Main App**: `https://your-app.vercel.app`
-- **Demo Mode**: `https://your-app.vercel.app/api/demo?style=slow_fingerstyle&mood=chill`
-- **Health Check**: `https://your-app.vercel.app/api/health`
-
----
-
-**Built with AI to help guitarists discover their next acoustic cover - completely free!** 
-
-**No API keys. No costs. No limits. Just music.** 
+Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.

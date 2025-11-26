@@ -14,8 +14,8 @@ export default function Home() {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      if (file.size > 10 * 1024 * 1024) {
-        setError('File size must be less than 10MB');
+      if (file.size > 12 * 1024 * 1024) {
+        setError('File size must be less than 12MB');
         return;
       }
       setAudioFile(file);
@@ -134,7 +134,7 @@ export default function Home() {
                     onClick={() => setMood(mood === m ? '' : m)}
                     className={`${styles.moodButton} ${mood === m ? styles.moodButtonActive : ''}`}
                   >
-                    {m}
+                    <span>{m}</span>
                   </button>
                 ))}
               </div>
@@ -232,9 +232,17 @@ export default function Home() {
                   <div key={`${song.artist}-${song.title}`} className={styles.songRecommendation}>
                     <div className={styles.songHeader}>
                       <div className={styles.rankBadge}>{song.rank}</div>
+                      {song.albumCover && (
+                        <img
+                          src={song.albumCover}
+                          alt={`${song.title} album cover`}
+                          className={styles.albumCover}
+                        />
+                      )}
                       <div className={styles.songMainInfo}>
                         <h3 className={styles.songTitle}>{song.title}</h3>
                         <p className={styles.songArtist}>{song.artist}</p>
+                        {song.album && <p className={styles.albumName}>{song.album}</p>}
                       </div>
                       <div className={styles.matchScore}>
                         {song.matchScore}% match

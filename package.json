@@ -4,7 +4,7 @@
   "description": "AI-powered acoustic cover recommendation app",
   "main": "index.js",
   "scripts": {
-    "dev": "vercel dev",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "analyze": "node scripts/analyze-audio.js"
