@@ -18,6 +18,7 @@
     "meyda": "^5.6.3",
     "music-metadata": "^8.1.4",
     "music-tempo": "^1.0.3",
+    "musicbrainz-api": "^0.26.0",
     "next": "^14.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

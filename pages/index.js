@@ -126,6 +126,11 @@ export default function Home() {
             {/* Bottom section: Gold lustrous controls */}
             <div className={styles.controlsSection}>
               <div className={styles.moodSelector}>
+                {mood && (
+                  <div className={styles.moodLight}>
+                    <div className={styles.lightGlow}></div>
+                  </div>
+                )}
                 <div className={styles.moodGrid}>
                   {moods.map((m) => (
                     <button
@@ -182,19 +187,19 @@ export default function Home() {
                 <div className={styles.stat}>
                   <span className={styles.statLabel}>Key</span>
                   <span className={styles.statValue}>
-                    {results.features.key}
+                    {results.features.key} {results.features.mode}
                   </span>
                 </div>
                 <div className={styles.stat}>
-                  <span className={styles.statLabel}>Energy</span>
+                  <span className={styles.statLabel}>Duration</span>
                   <span className={styles.statValue}>
-                    {(results.features.energy * 100).toFixed(0)}%
+                    {Math.floor(results.features.duration / 60)}:{Math.floor(results.features.duration % 60).toString().padStart(2, '0')}
                   </span>
                 </div>
                 <div className={styles.stat}>
-                  <span className={styles.statLabel}>Fingerprint</span>
+                  <span className={styles.statLabel}>Mode</span>
                   <span className={styles.statValue}>
-                    {results.fingerprint.totalPeaks} peaks
+                    {results.features.mode}
                   </span>
                 </div>
               </div>
@@ -220,6 +225,16 @@ export default function Home() {
                       {results.identification.track.album && (
                         <span className={styles.albumName}>
                           {results.identification.track.album}
+                        </span>
+                      )}
+                      {results.identification.track.keySignature && (
+                        <span className={styles.songKey}>
+                          Key: {results.identification.track.keySignature}
+                        </span>
+                      )}
+                      {results.identification.track.tempo && (
+                        <span className={styles.songTempo}>
+                          Tempo: {Math.round(results.identification.track.tempo)} BPM
                         </span>
                       )}
                     </div>
@@ -273,16 +288,16 @@ export default function Home() {
                           <span>{Math.round(song.tempo)} BPM</span>
                         </div>
                       )}
-                      {song.energy && (
+                      {song.genre && (
                         <div className={styles.detailsRow}>
-                          <span className={styles.detailLabel}>Energy:</span>
-                          <span>{(song.energy * 100).toFixed(0)}%</span>
+                          <span className={styles.detailLabel}>Genre:</span>
+                          <span>{song.genre}</span>
                         </div>
                       )}
-                      {song.acousticness && (
+                      {song.difficulty !== undefined && (
                         <div className={styles.detailsRow}>
-                          <span className={styles.detailLabel}>Acoustic:</span>
-                          <span>{(song.acousticness * 100).toFixed(0)}%</span>
+                          <span className={styles.detailLabel}>Difficulty:</span>
+                          <span>{song.difficulty}/100</span>
                         </div>
                       )}
                     </div>
@@ -301,9 +316,9 @@ export default function Home() {
                           href={song.trackViewUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className={styles.spotifyLink}
+                          className={styles.musicbrainzLink}
                         >
-                          Listen on Spotify
+                          View on MusicBrainz
                         </a>
                       </div>
                     )}

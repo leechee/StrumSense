@@ -3,14 +3,48 @@
    =================== */
 .container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
+  background:
+    linear-gradient(135deg,
+      rgba(200, 200, 210, 0.9) 0%,
+      rgba(180, 180, 195, 0.95) 25%,
+      rgba(220, 220, 230, 0.9) 50%,
+      rgba(180, 180, 195, 0.95) 75%,
+      rgba(200, 200, 210, 0.9) 100%),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.03) 0px,
+      transparent 1px,
+      transparent 2px,
+      rgba(0, 0, 0, 0.02) 3px
+    );
   color: #f5e6d3;
+  position: relative;
+}
+
+/* Metallic shine effect */
+.container::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.1) 0%,
+    transparent 50%,
+    rgba(0, 0, 0, 0.05) 100%
+  );
+  pointer-events: none;
+  z-index: 0;
 }
 
 .main {
   max-width: 1400px;
   margin: 0 auto;
   padding: 1rem 1rem;
+  position: relative;
+  z-index: 1;
 }
 
 /* ===================
@@ -176,7 +210,11 @@
    MIDDLE: FILE UPLOAD SECTION
    =================== */
 .fileUpload {
-  background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 50%, #2a2a2a 100%);
+  background:
+    linear-gradient(180deg, rgba(42, 42, 42, 0.85) 0%, rgba(26, 26, 26, 0.85) 50%, rgba(42, 42, 42, 0.85) 100%),
+    url('/assets/amp texture.jpg');
+  background-size: cover, cover;
+  background-position: center, center;
   padding: 2rem 1.5rem;
   border-bottom: 3px solid #0d0d0d;
   box-shadow:
@@ -370,6 +408,64 @@
   text-shadow: 0 1px 0 rgba(255,255,255,0.3);
 }
 
+/* Realistic mood indicator light - positioned at the power LED location */
+.moodLight {
+  position: absolute;
+  top: -2.3rem;
+  left: -3rem;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ff6b35, #ff4500);
+  box-shadow:
+    0 0 10px rgba(255, 75, 0, 0.8),
+    0 0 20px rgba(255, 75, 0, 0.5),
+    inset 0 -2px 3px rgba(0, 0, 0, 0.4),
+    inset 0 1px 2px rgba(255, 255, 255, 0.5);
+  animation: pulse 2s ease-in-out infinite;
+  z-index: 100;
+}
+
+/* Realistic light glow effect */
+.lightGlow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 200, 1) 0%, rgba(255, 120, 0, 0.8) 40%, transparent 70%);
+  box-shadow: 0 0 8px rgba(255, 200, 100, 0.9);
+  animation: glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow:
+      0 0 10px rgba(255, 75, 0, 0.8),
+      0 0 20px rgba(255, 75, 0, 0.5),
+      inset 0 -2px 3px rgba(0, 0, 0, 0.4),
+      inset 0 1px 2px rgba(255, 255, 255, 0.5);
+  }
+  50% {
+    box-shadow:
+      0 0 15px rgba(255, 75, 0, 1),
+      0 0 30px rgba(255, 75, 0, 0.7),
+      inset 0 -2px 3px rgba(0, 0, 0, 0.4),
+      inset 0 1px 2px rgba(255, 255, 255, 0.5);
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
 .moodGrid {
   display: flex;
   flex-wrap: wrap;
@@ -451,17 +547,38 @@
 }
 
 .moodButtonActive {
-  background: radial-gradient(circle at 30% 30%, #d4a574 0%, #c9a876 40%, #a68a58 80%, #8b7046 100%);
+  /* Keep the same dark background as normal state */
+  background: radial-gradient(circle at 30% 30%, #3d3d3d 0%, #1a1a1a 50%, #0a0a0a 100%);
   box-shadow:
-    0 0 20px rgba(212, 165, 116, 0.5),
     0 6px 12px rgba(0,0,0,0.7),
-    inset 0 -2px 4px rgba(0,0,0,0.5),
-    inset 0 2px 4px rgba(255,255,255,0.3);
+    inset 0 -2px 4px rgba(0,0,0,0.9),
+    inset 0 2px 4px rgba(255,255,255,0.15),
+    0 2px 4px rgba(0,0,0,0.5);
 }
 
 .moodButtonActive::after {
-  background: linear-gradient(180deg, #fff 0%, #d4a574 100%);
-  box-shadow: 0 0 6px rgba(255,255,255,0.8);
+  /* Glowing bright red pointer indicator when active */
+  background: linear-gradient(180deg, #ff3333 0%, #ff0000 100%);
+  box-shadow:
+    0 0 8px rgba(255, 51, 51, 0.9),
+    0 0 12px rgba(255, 0, 0, 0.6),
+    0 1px 2px rgba(0,0,0,0.5);
+  animation: pointerGlow 2s ease-in-out infinite;
+}
+
+@keyframes pointerGlow {
+  0%, 100% {
+    box-shadow:
+      0 0 8px rgba(255, 51, 51, 0.9),
+      0 0 12px rgba(255, 0, 0, 0.6),
+      0 1px 2px rgba(0,0,0,0.5);
+  }
+  50% {
+    box-shadow:
+      0 0 16px rgba(255, 51, 51, 1),
+      0 0 24px rgba(255, 0, 0, 0.9),
+      0 1px 2px rgba(0,0,0,0.5);
+  }
 }
 
 /* Labels below knobs - larger and more readable */
@@ -896,22 +1013,22 @@
   margin-top: 1rem;
 }
 
-.spotifyLink {
+.musicbrainzLink {
   display: inline-block;
   padding: 0.7rem 1.5rem;
-  background: linear-gradient(135deg, #1db954 0%, #1ed760 100%);
+  background: linear-gradient(135deg, #ba478f 0%, #8e44ad 100%);
   color: white;
   text-decoration: none;
   border-radius: 20px;
   font-weight: 600;
   font-size: 0.9rem;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 12px rgba(29, 185, 84, 0.3);
+  box-shadow: 0 4px 12px rgba(186, 71, 143, 0.3);
 }
 
-.spotifyLink:hover {
-  background: linear-gradient(135deg, #1ed760 0%, #1db954 100%);
-  box-shadow: 0 6px 16px rgba(29, 185, 84, 0.5);
+.musicbrainzLink:hover {
+  background: linear-gradient(135deg, #8e44ad 0%, #ba478f 100%);
+  box-shadow: 0 6px 16px rgba(186, 71, 143, 0.5);
   transform: translateY(-2px);
 }
 

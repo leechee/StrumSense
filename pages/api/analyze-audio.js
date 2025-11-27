@@ -51,7 +51,7 @@ export default async function handler(req, res) {
 
     const { fingerprint, features } = analysisResult;
 
-    // Get recommendations using fingerprint matching and Spotify API
+    // Get recommendations using fingerprint matching and AcoustID/MusicBrainz API
     const result = await getRecommendationsFromFingerprint(fingerprint, features, mood);
 
     // Clean up uploaded file
