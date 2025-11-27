@@ -2,7 +2,7 @@ import formidable from 'formidable';
 import fs from 'fs';
 import path from 'path';
 import { analyzeAudioFeatures } from '../../lib/audioAnalyzer';
-import { generateSongRecommendations } from '../../lib/recommendationEngine';
+import { getRecommendationsFromFingerprint } from '../../lib/fingerprintMatcher';
 
 export const config = {
   api: {
@@ -29,7 +29,7 @@ export default async function handler(req, res) {
     const [fields, files] = await form.parse(req);
 
     const audioFile = Array.isArray(files.audio) ? files.audio[0] : files.audio;
-    const mood = Array.isArray(fields.mood) ? fields.mood[0] : fields.mood;
+    const mood = Array.isArray(fields.mood) ? fields.mood[0] : fields.mood || '';
     const userId = Array.isArray(fields.userId) ? fields.userId[0] : fields.userId || 'anonymous';
 
     if (!audioFile) {
@@ -38,20 +38,34 @@ export default async function handler(req, res) {
 
     const audioPath = audioFile.filepath;
 
-    const audioFeatures = await analyzeAudioFeatures(audioPath);
+    // Analyze audio using Shazam-style fingerprinting
+    const analysisResult = await analyzeAudioFeatures(audioPath);
 
-    const recommendations = await generateSongRecommendations({
-      audioFeatures,
-      mood,
-      userId,
-    });
+    if (!analysisResult.success) {
+      fs.unlinkSync(audioPath);
+      return res.status(500).json({
+        error: 'Failed to analyze audio',
+        details: analysisResult.error
+      });
+    }
 
+    const { fingerprint, features } = analysisResult;
+
+    // Get recommendations using fingerprint matching and Spotify API
+    const result = await getRecommendationsFromFingerprint(fingerprint, features, mood);
+
+    // Clean up uploaded file
     fs.unlinkSync(audioPath);
 
     return res.status(200).json({
       success: true,
-      analysis: audioFeatures,
-      recommendations,
+      fingerprint: {
+        totalHashes: fingerprint.total_hashes,
+        totalPeaks: fingerprint.total_peaks
+      },
+      features: features,
+      identification: result.identification,
+      recommendations: result.recommendations,
     });
 
   } catch (error) {

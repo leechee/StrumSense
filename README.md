@@ -1,21 +1,21 @@
 # StrumSense
 
-AI-powered acoustic guitar cover recommendation app that analyzes your playing and suggests personalized songs to learn.
+AI-powered acoustic guitar cover recommendation app that analyzes your playing using Shazam-style audio fingerprinting and suggests personalized songs to learn from Spotify.
 
 ## Features
 
-- **Audio Analysis**: Upload your acoustic guitar cover and get instant analysis of tempo, key, chords, and playing style
-- **Song Recognition**: Pattern matching to identify what song you're playing
-- **Smart Recommendations**: Get personalized song suggestions based on your playing style, musical characteristics, and mood preferences
-- **iTunes Integration**: Search millions of songs with album artwork and preview links
-- **Audio Fingerprinting**: Chromagram-based fingerprinting for enhanced audio analysis
+- **Shazam-Style Audio Fingerprinting**: Advanced constellation-based audio fingerprinting for accurate song identification
+- **Song Recognition**: Identifies songs using acoustic fingerprint matching with high confidence scores
+- **Smart Recommendations**: Get personalized song suggestions from Spotify based on audio features and mood
+- **Spotify Integration**: Access millions of acoustic songs with album artwork, preview audio, and Spotify links
+- **Audio Feature Analysis**: Deep audio analysis including tempo, key, energy, acousticness, and timbre
 
 ## Tech Stack
 
 - **Frontend**: Next.js 14, React
 - **Backend**: Node.js API routes
-- **Audio Analysis**: Python 3.11 with librosa (ML-based audio feature extraction)
-- **Music Database**: iTunes Search API
+- **Audio Analysis**: Python 3.11 with librosa and scipy (Shazam-style fingerprinting)
+- **Music Database**: Spotify API (Client Credentials flow)
 - **Deployment**: Vercel
 
 ## Prerequisites
@@ -23,6 +23,7 @@ AI-powered acoustic guitar cover recommendation app that analyzes your playing a
 - Node.js 18+
 - Python 3.11 (via Anaconda/Miniconda)
 - Conda package manager
+- Spotify API credentials (free)
 
 ## Installation
 
@@ -47,12 +48,22 @@ conda create -n strumsense python=3.11 -y
 conda run -n strumsense pip install librosa numpy scipy
 ```
 
-5. Run the development server:
+5. Set up Spotify API credentials:
+   - Go to https://developer.spotify.com/dashboard
+   - Create a new app
+   - Copy your Client ID and Client Secret
+   - Create a `.env.local` file in the project root:
+```bash
+SPOTIFY_CLIENT_ID=your_client_id_here
+SPOTIFY_CLIENT_SECRET=your_client_secret_here
+```
+
+6. Run the development server:
 ```bash
 npm run dev
 ```
 
-6. Open [http://localhost:3000](http://localhost:3000) in your browser
+7. Open [http://localhost:3000](http://localhost:3000) in your browser
 
 ## Usage
 
@@ -65,53 +76,56 @@ npm run dev
 
 ### Audio Analysis Pipeline
 
-1. **Feature Extraction** (Python/librosa):
+1. **Shazam-Style Audio Fingerprinting** (Python/librosa + scipy):
+   - Creates spectrogram using Short-Time Fourier Transform (STFT)
+   - Identifies peak frequencies over time (constellation map)
+   - Generates unique fingerprint hashes from peak pairs
+   - Each hash encodes: (freq1, freq2, time_delta, anchor_time)
+   - Produces compact fingerprint signature for matching
+
+2. **Audio Feature Extraction** (Python/librosa):
    - Tempo detection using beat tracking
-   - Key and mode identification (major/minor)
-   - Chroma features for chord detection
-   - Spectral analysis (brightness, energy, zero-crossing rate)
-   - Playing style detection (fingerstyle vs strumming)
-   - Chromagram-based audio fingerprinting
+   - Key identification from chroma features
+   - Energy analysis (RMS)
+   - Spectral brightness and contrast
+   - MFCC for timbre similarity
+   - Acousticness and roughness metrics
 
-2. **Dynamic Music Search** (iTunes API):
-   - Builds intelligent search queries based on detected audio features
-   - Searches iTunes catalog for matching songs
-   - Returns songs with metadata, album artwork, and preview URLs
+3. **Song Identification & Matching** (Spotify API):
+   - Searches Spotify catalog using extracted audio features
+   - Matches songs by tempo, key, energy, and acousticness
+   - Returns identified song with confidence score
+   - Uses identified song as seed for recommendations
 
-3. **Recommendation Engine**:
-   - Scores songs based on:
-     - Tempo similarity
-     - Key and mode matching
-     - Vibe/mood alignment
-     - Genre compatibility
-     - User preference history
-   - Returns top 10 matches with detailed reasoning
+4. **Recommendation Engine**:
+   - Generates recommendations based on:
+     - Audio feature similarity (tempo, key, energy)
+     - Spotify audio features (acousticness, valence, danceability)
+     - User mood preferences
+     - Acoustic guitar-focused filtering
+   - Returns top 10 matches with Spotify previews and links
 
 ## Project Structure
 
 ```
 StrumSense/
 ├── pages/
-│   ├── index.js              # Main UI
+│   ├── index.js              # Main UI (realistic amp plugin interface)
 │   ├── _app.js               # Next.js app wrapper with analytics
 │   └── api/
-│       ├── analyze-audio.js  # Audio upload & analysis endpoint
+│       ├── analyze-audio.js  # Audio upload & fingerprint analysis endpoint
 │       ├── save-upload.js    # User history tracking
 │       ├── demo.js           # Demo mode
 │       └── health.js         # Health check
 ├── lib/
-│   ├── audioAnalyzer.js      # Node.js wrapper for Python analysis
-│   ├── songRecognitionFree.js # Pattern-based song recognition
-│   ├── recommendationEngine.js # Recommendation scoring
-│   ├── dynamicMusicSearch.js # iTunes search integration
-│   ├── musicApiService.js    # iTunes API client
-│   ├── acousticSongsDatabase.js # Static song database & mood categories
-│   └── testData.js           # Sample data for testing
+│   ├── audioAnalyzer.js      # Node.js wrapper for Python fingerprinting
+│   ├── spotifyService.js     # Spotify API client & authentication
+│   └── fingerprintMatcher.js # Audio fingerprint matching & recommendations
 ├── scripts/
-│   └── audio_analyzer.py     # Python audio analysis with librosa
+│   └── shazam_fingerprint.py # Shazam-style audio fingerprinting with librosa
 ├── styles/
 │   ├── globals.css
-│   └── Home.module.css
+│   └── Home.module.css       # Realistic amp plugin styling
 └── assets/
     └── free.mp3              # Test audio file
 ```
@@ -141,7 +155,14 @@ The app is configured for Vercel deployment with:
 
 ## Environment Variables
 
-No API keys or environment variables required for basic functionality. The app uses the free iTunes Search API.
+Required environment variables:
+
+```bash
+SPOTIFY_CLIENT_ID=your_client_id
+SPOTIFY_CLIENT_SECRET=your_client_secret
+```
+
+For Vercel deployment, add these as environment variables in your Vercel project settings.
 
 ## Development
 
@@ -158,16 +179,17 @@ No API keys or environment variables required for basic functionality. The app u
 
 ## Audio Analysis Features
 
-The Python audio analyzer extracts:
-- **Tempo**: BPM detection
-- **Key**: Musical key (C, D, E, etc.)
-- **Mode**: Major or minor
-- **Chords**: Likely chord progression
-- **Brightness**: Spectral centroid
-- **Energy**: RMS energy level
-- **Vibe Tags**: Descriptive characteristics (e.g., dark, bright, mellow, energetic)
-- **Playing Style**: Fingerstyle detection
-- **Fingerprint**: Chromagram-based audio fingerprint
+The Shazam-style fingerprinting extracts:
+- **Constellation Map**: Peak frequencies over time
+- **Fingerprint Hashes**: Unique (freq1, freq2, time_delta) combinations
+- **Tempo**: BPM detection using beat tracking
+- **Key**: Musical key identification (C, D, E, etc.)
+- **Energy**: RMS energy analysis
+- **Brightness**: Spectral centroid for timbre
+- **Roughness**: Zero-crossing rate for texture
+- **Contrast**: Spectral contrast for dynamics
+- **MFCC**: Mel-frequency cepstral coefficients for timbre matching
+- **Duration**: Track length in seconds
 
 ## License
 

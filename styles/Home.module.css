@@ -3,13 +3,14 @@
    =================== */
 .container {
   min-height: 100vh;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
   color: #f5e6d3;
 }
 
 .main {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: 1rem 1rem;
 }
 
 /* ===================
@@ -42,114 +43,241 @@
 }
 
 /* ===================
-   AMP PLUGIN INTERFACE
+   REALISTIC AMP INTERFACE
    =================== */
 .uploadSection {
-  background: linear-gradient(180deg, #1a1a1a 0%, #0d0d0d 100%);
-  border-radius: 8px 8px 4px 4px;
+  background: #0a0a0a;
+  border-radius: 12px;
   padding: 0;
   box-shadow:
-    0 20px 40px rgba(0, 0, 0, 0.9),
-    inset 0 1px 0 rgba(255,255,255,0.1);
+    0 25px 50px rgba(0, 0, 0, 0.95),
+    inset 0 2px 4px rgba(255,255,255,0.05),
+    0 0 0 1px rgba(255,255,255,0.1);
   margin-bottom: 2rem;
-  border: 2px solid #0a0a0a;
+  border: 3px solid #1a1a1a;
   position: relative;
   overflow: hidden;
 }
 
-/* Top black panel section */
-.uploadSection::before {
-  content: 'StrumSense';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 80px;
-  background: linear-gradient(180deg, #0d0d0d 0%, #1a1a1a 100%);
-  border-bottom: 3px solid #2a2a2a;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Courier New', monospace;
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #888;
-  letter-spacing: 8px;
-  text-shadow: 0 0 10px rgba(255,255,255,0.1);
-  border-radius: 8px 8px 0 0;
-}
-
-/* Gold/tan control panel */
 .form {
   display: flex;
   flex-direction: column;
   gap: 0;
-  background: linear-gradient(180deg, #c9a876 0%, #a68a58 50%, #b89562 100%);
-  margin-top: 80px;
-  padding: 2.5rem 2rem;
-  border-top: 4px solid #d4b380;
-  border-bottom: 4px solid #8b7046;
-  box-shadow:
-    inset 0 3px 10px rgba(0,0,0,0.2),
-    inset 0 -3px 10px rgba(255,255,255,0.1);
 }
 
 /* ===================
-   FILE UPLOAD - TOP SECTION
+   TOP: BRANDING SECTION
+   =================== */
+.brandingSection {
+  background: linear-gradient(180deg, #0d0d0d 0%, #1a1a1a 50%, #0d0d0d 100%);
+  padding: 1rem 2rem 1rem 2rem;
+  border-bottom: 4px solid #2a2a2a;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.05),
+    inset 0 -1px 0 rgba(0,0,0,0.5),
+    0 4px 8px rgba(0,0,0,0.6);
+  position: relative;
+}
+
+/* Top edge highlight */
+.brandingSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%);
+}
+
+/* Power LED indicator (red) */
+.brandingSection::after {
+  content: '';
+  position: absolute;
+  top: 1.5rem;
+  right: 2rem;
+  width: 8px;
+  height: 8px;
+  background: radial-gradient(circle, #ff3333 0%, #cc0000 60%, #800000 100%);
+  border-radius: 50%;
+  box-shadow:
+    0 0 8px rgba(255, 51, 51, 0.8),
+    0 0 15px rgba(255, 51, 51, 0.5),
+    inset 0 -1px 2px rgba(0,0,0,0.5),
+    inset 0 1px 1px rgba(255,100,100,0.5);
+  animation: powerPulse 2s ease-in-out infinite;
+}
+
+@keyframes powerPulse {
+  0%, 100% {
+    box-shadow:
+      0 0 8px rgba(255, 51, 51, 0.8),
+      0 0 15px rgba(255, 51, 51, 0.5),
+      inset 0 -1px 2px rgba(0,0,0,0.5);
+  }
+  50% {
+    box-shadow:
+      0 0 12px rgba(255, 51, 51, 1),
+      0 0 20px rgba(255, 51, 51, 0.7),
+      inset 0 -1px 2px rgba(0,0,0,0.5);
+  }
+}
+
+.ampLogo {
+  font-family: 'Courier New', 'Consolas', monospace;
+  font-size: 2rem;
+  font-weight: 900;
+  background: linear-gradient(180deg, #ffffff 0%, #d0d0d0 50%, #b0b0b0 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 10px;
+  text-align: center;
+  margin: 0;
+  text-shadow:
+    0 1px 0 rgba(255,255,255,0.5),
+    0 -1px 0 rgba(0,0,0,0.8),
+    0 2px 3px rgba(0,0,0,0.9);
+  text-transform: uppercase;
+  position: relative;
+  filter: drop-shadow(0 1px 0 rgba(255,255,255,0.4)) drop-shadow(0 -1px 1px rgba(0,0,0,0.8));
+}
+
+/* Power label next to LED */
+.ampLogo::before {
+  content: 'POWER';
+  position: absolute;
+  right: -6rem;
+  top: -0.5rem;
+  font-size: 0.5rem;
+  font-weight: 600;
+  color: #555;
+  letter-spacing: 1px;
+  text-shadow: none;
+}
+
+/* Tagline below logo */
+.tagline {
+  font-family: 'Courier New', 'Consolas', monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+  background: linear-gradient(180deg, #e8e8e8 0%, #b0b0b0 50%, #888 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 3px;
+  text-align: center;
+  margin: 0.5rem 0 0 0;
+  text-transform: uppercase;
+  filter: drop-shadow(0 1px 0 rgba(255,255,255,0.3)) drop-shadow(0 -1px 1px rgba(0,0,0,0.7));
+}
+
+/* ===================
+   MIDDLE: FILE UPLOAD SECTION
    =================== */
 .fileUpload {
+  background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 50%, #2a2a2a 100%);
+  padding: 2rem 1.5rem;
+  border-bottom: 3px solid #0d0d0d;
+  box-shadow:
+    inset 0 4px 12px rgba(0,0,0,0.5),
+    inset 0 -1px 0 rgba(255,255,255,0.03);
   position: relative;
-  margin-bottom: 2rem;
+}
+
+/* Realistic speaker mesh texture overlay */
+.fileUpload::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.4) 2px,
+      rgba(0,0,0,0.4) 3px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.4) 2px,
+      rgba(0,0,0,0.4) 3px
+    );
+  background-size: 3px 3px;
+  pointer-events: none;
+  opacity: 0.6;
+  z-index: 1;
+}
+
+/* Dark shadow overlay for depth */
+.fileUpload::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.3) 100%);
+  pointer-events: none;
+  z-index: 2;
 }
 
 .fileLabel {
+  display: block;
   cursor: pointer;
+  position: relative;
+  z-index: 3;
 }
 
 .uploadBox {
-  border: none;
-  border-radius: 6px;
-  padding: 2rem 1.5rem;
+  background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 50%, #1a1a1a 100%);
+  border: 4px dashed #777;
+  border-radius: 8px;
+  padding: 5.5rem 3rem;
   text-align: center;
   transition: all 0.3s ease;
-  background: rgba(0, 0, 0, 0.25);
-  box-shadow: inset 0 2px 8px rgba(0,0,0,0.3);
+  box-shadow:
+    inset 0 2px 8px rgba(0,0,0,0.6),
+    0 2px 4px rgba(0,0,0,0.3);
+  position: relative;
+  z-index: 3;
 }
 
 .uploadBox:hover {
-  background: rgba(0, 0, 0, 0.35);
-  box-shadow: inset 0 2px 10px rgba(0,0,0,0.4);
+  border-color: #888;
+  background: linear-gradient(135deg, #252525 0%, #1a1a1a 50%, #252525 100%);
+  box-shadow:
+    inset 0 2px 12px rgba(0,0,0,0.8),
+    0 4px 8px rgba(0,0,0,0.5);
 }
 
-.uploadIcon {
-  font-size: 3rem;
-  margin-bottom: 0.8rem;
-  color: #1a1a1a;
-  filter: drop-shadow(1px 1px 2px rgba(255,255,255,0.2));
-}
-
-.fileName {
-  display: block;
-  font-size: 1rem;
-  font-weight: 700;
-  color: #1a1a1a;
-  margin-bottom: 0.5rem;
+.uploadText {
+  font-size: 1.2rem;
+  color: #999;
+  margin: 0 0 0.5rem 0;
   font-family: 'Courier New', monospace;
-  text-shadow: 0 1px 1px rgba(255,255,255,0.3);
-}
-
-.fileSize {
-  display: block;
-  font-size: 0.85rem;
-  color: #2a2a2a;
-  font-family: 'Courier New', monospace;
+  font-weight: 600;
 }
 
 .fileHint {
-  font-size: 0.85rem;
-  color: #333;
+  font-size: 0.9rem;
+  color: #666;
   margin: 0.5rem 0 0 0;
+  font-family: 'Courier New', monospace;
+}
+
+.fileName {
+  font-size: 1.2rem;
+  color: #aaa;
   font-weight: 600;
+  font-family: 'Courier New', monospace;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.fileSize {
+  font-size: 0.9rem;
+  color: #777;
+  font-family: 'Courier New', monospace;
 }
 
 .fileInput {
@@ -157,61 +285,116 @@
 }
 
 /* ===================
-   AMP CONTROL PANEL - KNOBS IN ROW
+   BOTTOM: GOLD LUSTROUS CONTROLS SECTION (1/4 HEIGHT)
    =================== */
-.moodSelector {
+.controlsSection {
+  background: linear-gradient(180deg, #d4b380 0%, #c9a876 10%, #b89562 40%, #a68a58 70%, #8b7046 100%);
+  padding: 2.5rem 2rem 3rem 2rem;
+  border-top: 5px solid #e6c89a;
+  border-bottom: 4px solid #6d5a3a;
+  box-shadow:
+    inset 0 4px 16px rgba(0,0,0,0.25),
+    inset 0 -4px 16px rgba(255,255,255,0.15),
+    inset 0 1px 0 rgba(255,255,255,0.3),
+    0 -4px 12px rgba(0,0,0,0.4);
+  position: relative;
+  border-radius: 0 0 8px 8px;
   display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  padding: 0;
-  background: none;
-  border: none;
-  box-shadow: none;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
 }
 
-.moodLabel {
-  font-size: 0.75rem;
-  font-weight: 700;
+/* Metallic texture overlay */
+.controlsSection::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(0,0,0,0.03) 0px,
+      transparent 1px,
+      transparent 2px,
+      rgba(0,0,0,0.03) 3px
+    );
+  pointer-events: none;
+  border-radius: 0 0 8px 8px;
+}
+
+/* Corner screws */
+.controlsSection::after {
+  content: '';
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  width: 10px;
+  height: 10px;
+  background: radial-gradient(circle, #4a4a4a 0%, #2a2a2a 50%, #1a1a1a 100%);
+  border-radius: 50%;
+  box-shadow:
+    /* Phillips head cross */
+    inset 1px 0 0 0 rgba(0,0,0,0.9),
+    inset -1px 0 0 0 rgba(0,0,0,0.9),
+    inset 0 1px 0 0 rgba(0,0,0,0.9),
+    inset 0 -1px 0 0 rgba(0,0,0,0.9),
+    inset 0 1px 2px rgba(0,0,0,0.8),
+    0 1px 0 rgba(255,255,255,0.2),
+    /* Other three corners */
+    calc(100vw - 6rem) 0 0 0 #2a2a2a,
+    0 calc(100% - 3.5rem) 0 0 #2a2a2a,
+    calc(100vw - 6rem) calc(100% - 3.5rem) 0 0 #2a2a2a;
+}
+
+
+/* ===================
+   MOOD SELECTOR (TONE KNOBS)
+   =================== */
+.moodSelector {
+  flex: 1;
+  min-width: 280px;
+  position: relative;
+}
+
+/* "TONE" label above knobs */
+.moodSelector::before {
+  content: 'TONE CONTROL';
+  position: absolute;
+  top: -1.8rem;
+  left: 0;
+  font-size: 0.6rem;
+  font-weight: 800;
   color: #2a2a2a;
-  text-align: center;
-  text-transform: uppercase;
   letter-spacing: 2px;
   font-family: 'Courier New', monospace;
-  margin: 0;
   text-shadow: 0 1px 0 rgba(255,255,255,0.3);
 }
 
 .moodGrid {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  gap: 1.5rem 2rem;
+  justify-content: flex-start;
   align-items: flex-start;
-  gap: 2.5rem 3rem;
-  padding: 1.5rem 1rem;
-  background: rgba(0,0,0,0.15);
-  border-radius: 6px;
-  box-shadow: inset 0 2px 8px rgba(0,0,0,0.25);
+  position: relative;
+  z-index: 1;
 }
 
-/* REALISTIC AMP KNOB */
+/* Realistic amp knob */
 .moodButton {
   position: relative;
-  width: 65px;
-  height: 65px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
-  background:
-    radial-gradient(circle at 30% 30%, #3a3a3a, #1a1a1a 60%, #0a0a0a);
+  background: radial-gradient(circle at 30% 30%, #3d3d3d 0%, #1a1a1a 50%, #0a0a0a 100%);
   border: none;
   box-shadow:
-    0 8px 16px rgba(0,0,0,0.6),
-    inset 0 -2px 5px rgba(0,0,0,0.9),
-    inset 0 2px 5px rgba(255,255,255,0.15),
-    0 2px 4px rgba(0,0,0,0.4);
+    0 6px 12px rgba(0,0,0,0.7),
+    inset 0 -2px 4px rgba(0,0,0,0.9),
+    inset 0 2px 4px rgba(255,255,255,0.15),
+    0 2px 4px rgba(0,0,0,0.5);
   cursor: pointer;
-  transition: all 0.15s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  transition: all 0.2s ease;
   padding: 0;
 }
 
@@ -219,13 +402,17 @@
 .moodButton::before {
   content: '';
   position: absolute;
-  width: 72px;
-  height: 72px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 68px;
+  height: 68px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #666 0%, #333 50%, #555 100%);
+  background: linear-gradient(135deg, #5a5a5a 0%, #3a3a3a 50%, #4a4a4a 100%);
   box-shadow:
     inset 0 2px 4px rgba(0,0,0,0.6),
-    0 3px 8px rgba(0,0,0,0.5);
+    0 2px 6px rgba(0,0,0,0.5),
+    inset 0 -1px 2px rgba(255,255,255,0.2);
   z-index: -1;
 }
 
@@ -233,147 +420,188 @@
 .moodButton::after {
   content: '';
   position: absolute;
-  top: 8px;
+  top: 6px;
   left: 50%;
   transform: translateX(-50%);
   width: 3px;
-  height: 14px;
-  background: linear-gradient(180deg, #e6e6e6 0%, #999 100%);
+  height: 12px;
+  background: linear-gradient(180deg, #f0f0f0 0%, #999 100%);
   border-radius: 2px;
-  box-shadow: 0 0 3px rgba(255,255,255,0.5);
+  box-shadow:
+    0 0 3px rgba(255,255,255,0.5),
+    0 1px 2px rgba(0,0,0,0.5);
 }
 
 .moodButton:hover {
-  transform: scale(1.05);
+  background: radial-gradient(circle at 30% 30%, #4a4a4a 0%, #252525 50%, #0d0d0d 100%);
+  transform: translateY(-1px);
   box-shadow:
-    0 10px 20px rgba(0,0,0,0.7),
-    inset 0 -2px 5px rgba(0,0,0,0.9),
-    inset 0 2px 5px rgba(255,255,255,0.2),
-    0 2px 4px rgba(0,0,0,0.4);
+    0 8px 16px rgba(0,0,0,0.8),
+    inset 0 -2px 4px rgba(0,0,0,0.9),
+    inset 0 2px 4px rgba(255,255,255,0.2),
+    0 2px 4px rgba(0,0,0,0.5);
 }
 
 .moodButton:active {
-  transform: scale(0.98);
+  transform: translateY(0px);
+  box-shadow:
+    0 4px 8px rgba(0,0,0,0.7),
+    inset 0 2px 6px rgba(0,0,0,0.9),
+    inset 0 -1px 2px rgba(255,255,255,0.1);
 }
 
 .moodButtonActive {
-  background:
-    radial-gradient(circle at 30% 30%, #4a4a4a, #2a2a2a 60%, #1a1a1a);
+  background: radial-gradient(circle at 30% 30%, #d4a574 0%, #c9a876 40%, #a68a58 80%, #8b7046 100%);
   box-shadow:
-    0 10px 20px rgba(0,0,0,0.7),
-    inset 0 -2px 5px rgba(0,0,0,0.9),
-    inset 0 2px 5px rgba(255,255,255,0.25),
-    0 0 15px rgba(212, 165, 116, 0.4),
-    0 2px 4px rgba(0,0,0,0.4);
+    0 0 20px rgba(212, 165, 116, 0.5),
+    0 6px 12px rgba(0,0,0,0.7),
+    inset 0 -2px 4px rgba(0,0,0,0.5),
+    inset 0 2px 4px rgba(255,255,255,0.3);
 }
 
 .moodButtonActive::after {
-  background: linear-gradient(180deg, #f4c088 0%, #d4a574 100%);
-  box-shadow: 0 0 6px rgba(244, 192, 136, 0.8);
+  background: linear-gradient(180deg, #fff 0%, #d4a574 100%);
+  box-shadow: 0 0 6px rgba(255,255,255,0.8);
 }
 
-/* Labels below knobs */
+/* Labels below knobs - larger and more readable */
 .moodButton span {
   position: absolute;
-  bottom: -24px;
+  bottom: -28px;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 0.7rem;
-  font-weight: 700;
+  font-size: 0.75rem;
+  font-weight: 800;
   color: #2a2a2a;
   text-transform: uppercase;
   white-space: nowrap;
   font-family: 'Courier New', monospace;
-  letter-spacing: 0.5px;
-  text-shadow: 0 1px 0 rgba(255,255,255,0.3);
+  letter-spacing: 1px;
+  text-shadow:
+    0 1px 0 rgba(255,255,255,0.4),
+    0 -1px 0 rgba(0,0,0,0.2);
 }
 
 /* ===================
-   SUBMIT BUTTON - AMP STYLE
+   GET RECOMMENDATIONS BUTTON (RIGHT SIDE)
    =================== */
 .submitButton {
+  align-self: center;
   padding: 1.2rem 2.5rem;
-  background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 50%, #0d0d0d 100%);
-  color: #c9a876;
-  border: 3px solid #1a1a1a;
+  background: linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 50%, #000 100%);
+  color: #d4a574;
+  border: 3px solid #2a2a2a;
   border-radius: 6px;
   font-size: 1rem;
   font-weight: 800;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
   cursor: pointer;
   transition: all 0.2s ease;
   box-shadow:
-    0 6px 12px rgba(0,0,0,0.5),
-    inset 0 1px 2px rgba(255,255,255,0.1),
-    inset 0 -2px 4px rgba(0,0,0,0.5);
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  font-family: 'Courier New', monospace;
-  margin-top: 1.5rem;
-  text-shadow: 0 0 10px rgba(201, 168, 118, 0.5);
+    0 6px 16px rgba(0,0,0,0.8),
+    inset 0 1px 0 rgba(255,255,255,0.1),
+    inset 0 -2px 4px rgba(0,0,0,0.6);
+  text-shadow:
+    0 0 10px rgba(212, 165, 116, 0.5),
+    0 2px 4px rgba(0,0,0,0.8);
+  position: relative;
+  z-index: 1;
+  white-space: nowrap;
+}
+
+/* Model number on button */
+.submitButton::after {
+  content: 'SS-AI';
+  position: absolute;
+  bottom: -1.5rem;
+  right: 0.5rem;
+  font-size: 0.5rem;
+  font-weight: 700;
+  color: #6d5a3a;
+  letter-spacing: 1px;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.2);
 }
 
 .submitButton:hover:not(:disabled) {
-  background: linear-gradient(180deg, #333 0%, #222 50%, #111 100%);
+  background: linear-gradient(180deg, #252525 0%, #1a1a1a 50%, #0d0d0d 100%);
+  color: #e6c89a;
+  border-color: #3a3a3a;
   box-shadow:
-    0 8px 16px rgba(0,0,0,0.6),
-    inset 0 1px 2px rgba(255,255,255,0.15),
+    0 8px 20px rgba(0,0,0,0.9),
+    inset 0 1px 0 rgba(255,255,255,0.15),
     inset 0 -2px 4px rgba(0,0,0,0.5),
-    0 0 20px rgba(201, 168, 118, 0.3);
-  color: #d4b380;
-  text-shadow: 0 0 15px rgba(212, 179, 128, 0.7);
+    0 0 20px rgba(212, 165, 116, 0.2);
+  text-shadow:
+    0 0 15px rgba(230, 200, 154, 0.7),
+    0 2px 4px rgba(0,0,0,0.8);
+  transform: translateY(-1px);
 }
 
 .submitButton:active:not(:disabled) {
-  transform: translateY(2px);
+  transform: translateY(0px);
   box-shadow:
-    0 3px 8px rgba(0,0,0,0.6),
-    inset 0 3px 6px rgba(0,0,0,0.6);
+    0 4px 12px rgba(0,0,0,0.8),
+    inset 0 2px 6px rgba(0,0,0,0.8),
+    inset 0 -1px 0 rgba(255,255,255,0.05);
 }
 
 .submitButton:disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
-  background: linear-gradient(180deg, #222 0%, #1a1a1a 50%, #111 100%);
-  color: #555;
+  color: #666;
   text-shadow: none;
 }
 
 /* ===================
-   ERROR & LOADING
+   ERROR DISPLAY
    =================== */
 .error {
-  background: linear-gradient(135deg, rgba(74, 31, 31, 0.9) 0%, rgba(58, 21, 21, 0.95) 100%);
-  color: #ffb3b3;
-  padding: 1.5rem;
+  background: linear-gradient(135deg, #3d1a1a 0%, #2d0d0d 100%);
+  border: 2px solid #5a2a2a;
   border-radius: 6px;
+  padding: 1rem 1.5rem;
   margin-top: 1rem;
-  text-align: center;
-  border: 2px solid #663333;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-  font-family: 'Courier New', monospace;
+  box-shadow:
+    0 4px 12px rgba(0,0,0,0.5),
+    inset 0 1px 0 rgba(255,100,100,0.1);
 }
 
+.error p {
+  color: #ff6b6b;
+  margin: 0;
+  font-family: 'Courier New', monospace;
+  font-size: 0.95rem;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+/* ===================
+   LOADING STATE
+   =================== */
 .loading {
-  background: linear-gradient(135deg, rgba(42, 35, 28, 0.95) 0%, rgba(31, 26, 21, 0.98) 100%);
-  border-radius: 8px;
-  padding: 3rem;
   text-align: center;
+  padding: 3rem 2rem;
+  background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 50%, #1a1a1a 100%);
+  border-radius: 8px;
+  border: 2px solid #2a2a2a;
   box-shadow:
-    0 15px 35px rgba(0, 0, 0, 0.7),
+    0 8px 24px rgba(0,0,0,0.6),
     inset 0 1px 0 rgba(255,255,255,0.05);
-  border: 4px solid #5a4a35;
-  color: #d4a574;
+  margin-bottom: 2rem;
 }
 
 .spinner {
-  width: 50px;
-  height: 50px;
-  border: 4px solid #3a3a3a;
-  border-top: 4px solid #c9a876;
+  width: 60px;
+  height: 60px;
+  border: 4px solid #2a2a2a;
+  border-top: 4px solid #d4a574;
   border-radius: 50%;
   animation: spin 1s linear infinite;
-  margin: 0 auto 1rem;
-  box-shadow: 0 0 15px rgba(201, 168, 118, 0.3);
+  margin: 0 auto 1.5rem auto;
+  box-shadow:
+    0 0 20px rgba(212, 165, 116, 0.3),
+    inset 0 0 10px rgba(0,0,0,0.5);
 }
 
 @keyframes spin {
@@ -381,67 +609,50 @@
   100% { transform: rotate(360deg); }
 }
 
+.loading p {
+  color: #d4a574;
+  font-size: 1.1rem;
+  margin: 0.5rem 0;
+  font-family: 'Courier New', monospace;
+  font-weight: 600;
+}
+
 .loadingHint {
-  color: #999;
-  font-size: 0.9rem;
-  margin-top: 0.5rem;
-  font-family: Georgia, serif;
+  color: #999 !important;
+  font-size: 0.9rem !important;
   font-style: italic;
 }
 
 /* ===================
-   RESULTS SECTIONS
+   RESULTS SECTION
    =================== */
 .results {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 2rem;
+  margin-top: 3rem;
 }
 
 .analysisSection,
 .recommendationsSection {
-  background:
-    linear-gradient(135deg, rgba(42, 37, 32, 0.92) 0%, rgba(31, 26, 21, 0.95) 100%);
+  background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 50%, #1a1a1a 100%);
   border-radius: 8px;
-  padding: 2.5rem;
+  padding: 2rem;
+  border: 2px solid #2a2a2a;
   box-shadow:
-    0 12px 30px rgba(0, 0, 0, 0.7),
-    inset 0 1px 0 rgba(255,255,255,0.04);
-  border: 4px solid #5a4a35;
+    0 8px 24px rgba(0,0,0,0.6),
+    inset 0 1px 0 rgba(255,255,255,0.05);
 }
 
 .analysisSection h2,
 .recommendationsSection h2 {
   color: #d4a574;
+  font-family: Georgia, serif;
+  font-size: 1.8rem;
   margin: 0 0 1.5rem 0;
-  font-size: 2rem;
-  font-family: Georgia, serif;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 
-.vibeDescription {
-  background: rgba(26, 26, 26, 0.5);
-  padding: 1.5rem;
-  border-radius: 6px;
-  margin-bottom: 2rem;
-  border-left: 4px solid #c9a876;
-  box-shadow: inset 0 2px 8px rgba(0,0,0,0.4);
-}
-
-.vibeDescription p {
-  margin: 0;
-  font-size: 1.05rem;
-  line-height: 1.7;
-  color: #d4c4a8;
-  font-family: Georgia, serif;
-  font-style: italic;
-}
-
-/* ===================
-   STATS GRID
-   =================== */
 .statsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -450,89 +661,113 @@
 }
 
 .stat {
-  background: linear-gradient(135deg, rgba(26, 26, 26, 0.7) 0%, rgba(20, 20, 20, 0.8) 100%);
+  background: linear-gradient(135deg, #252525 0%, #1a1a1a 100%);
   padding: 1.5rem;
   border-radius: 6px;
+  border: 2px solid #2a2a2a;
   text-align: center;
-  color: #d4a574;
-  border: 2px solid #3a3a3a;
   box-shadow:
-    0 6px 15px rgba(0,0,0,0.5),
-    inset 0 2px 6px rgba(0,0,0,0.4);
+    0 4px 12px rgba(0,0,0,0.5),
+    inset 0 1px 0 rgba(255,255,255,0.05);
 }
 
 .statLabel {
   display: block;
-  font-size: 0.8rem;
-  opacity: 0.75;
-  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
+  color: #999;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  color: #a89070;
   font-family: 'Courier New', monospace;
+  letter-spacing: 1px;
+  margin-bottom: 0.5rem;
 }
 
 .statValue {
   display: block;
   font-size: 1.5rem;
   font-weight: 700;
-  color: #e6d4b8;
-  font-family: Georgia, serif;
-}
-
-/* ===================
-   RECOGNIZED SONG
-   =================== */
-.recognizedSong {
-  margin-top: 2rem;
-}
-
-.recognizedSong h3 {
   color: #d4a574;
-  margin-bottom: 1rem;
-  font-family: Georgia, serif;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-}
-
-.songCard {
-  background: rgba(26, 26, 26, 0.7);
-  padding: 1.5rem;
-  border-radius: 6px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border: 2px solid #8b7355;
-  box-shadow: 0 4px 12px rgba(139, 115, 85, 0.2);
-}
-
-.songInfo {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  color: #d4c4a8;
-}
-
-.confidence {
-  background: #c9a876;
-  color: #1a1a1a;
-  padding: 0.5rem 1rem;
-  border-radius: 12px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  box-shadow: 0 3px 8px rgba(201, 168, 118, 0.4);
   font-family: 'Courier New', monospace;
 }
 
-/* ===================
-   RECOMMENDATIONS LIST
-   =================== */
-.recDescription {
-  color: #a89070;
-  margin-bottom: 2rem;
-  font-size: 1rem;
+.recognizedSong {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 2px solid #2a2a2a;
+}
+
+.recognizedSong h3 {
+  color: #c9a876;
   font-family: Georgia, serif;
+  font-size: 1.3rem;
+  margin: 0 0 1rem 0;
+}
+
+.songCard {
+  background: linear-gradient(135deg, #252525 0%, #1a1a1a 100%);
+  padding: 1.5rem;
+  border-radius: 6px;
+  border: 2px solid #2a2a2a;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  box-shadow:
+    0 4px 12px rgba(0,0,0,0.5),
+    inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+.identifiedAlbumCover {
+  width: 80px;
+  height: 80px;
+  border-radius: 4px;
+  border: 2px solid #3a3a3a;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.6);
+}
+
+.songInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.songTitle {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #e6c89a;
+  font-family: Georgia, serif;
+}
+
+.songArtist {
+  font-size: 1rem;
+  color: #b89562;
+  font-family: Georgia, serif;
+}
+
+.albumName {
+  font-size: 0.85rem;
+  color: #888;
   font-style: italic;
+}
+
+.confidence {
+  text-align: right;
+  color: #d4a574;
+  font-weight: 700;
+  font-size: 1.1rem;
+  font-family: 'Courier New', monospace;
+}
+
+.confidenceMessage {
+  font-size: 0.85rem;
+  color: #999;
+  margin-top: 0.3rem;
+}
+
+.recDescription {
+  color: #999;
+  font-style: italic;
+  margin-bottom: 1.5rem;
+  font-family: Georgia, serif;
 }
 
 .songsList {
@@ -542,19 +777,22 @@
 }
 
 .songRecommendation {
-  background: rgba(26, 26, 26, 0.5);
+  background: linear-gradient(135deg, #252525 0%, #1a1a1a 100%);
+  border: 2px solid #2a2a2a;
   border-radius: 6px;
   padding: 1.5rem;
-  border: 2px solid #5a4a35;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  box-shadow:
+    0 4px 12px rgba(0,0,0,0.5),
+    inset 0 1px 0 rgba(255,255,255,0.05);
 }
 
 .songRecommendation:hover {
-  border-color: #8b7355;
-  box-shadow: 0 6px 18px rgba(139, 115, 85, 0.25);
+  border-color: #3a3a3a;
+  box-shadow:
+    0 6px 16px rgba(0,0,0,0.7),
+    inset 0 1px 0 rgba(255,255,255,0.08);
   transform: translateY(-2px);
-  background: rgba(35, 30, 25, 0.6);
 }
 
 .songHeader {
@@ -564,171 +802,117 @@
   margin-bottom: 1rem;
 }
 
-.albumCover {
-  width: 80px;
-  height: 80px;
-  border-radius: 4px;
-  object-fit: cover;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
-  transition: transform 0.2s ease;
-  border: 2px solid #5a4a35;
-}
-
-.albumCover:hover {
-  transform: scale(1.05);
-  border-color: #8b7355;
-}
-
-.albumName {
-  font-size: 0.85rem;
-  color: #888;
-  margin: 0.25rem 0 0 0;
-  font-style: italic;
-  font-family: Georgia, serif;
-}
-
 .rankBadge {
-  background: linear-gradient(135deg, #c9a876 0%, #a68a58 100%);
-  color: #1a1a1a;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #d4a574 0%, #c9a876 100%);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 800;
-  font-size: 1.15rem;
-  flex-shrink: 0;
-  border: 2px solid #8b7046;
-  box-shadow: 0 3px 10px rgba(201, 168, 118, 0.4);
-  font-family: Georgia, serif;
+  font-size: 1rem;
+  color: #1a1a1a;
+  box-shadow:
+    0 3px 8px rgba(0,0,0,0.5),
+    inset 0 1px 0 rgba(255,255,255,0.3);
+  font-family: 'Courier New', monospace;
+}
+
+.albumCover {
+  width: 60px;
+  height: 60px;
+  border-radius: 4px;
+  border: 2px solid #3a3a3a;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.6);
 }
 
 .songMainInfo {
   flex: 1;
 }
 
-.songTitle {
-  margin: 0;
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: #e6d4b8;
+.songMainInfo h3 {
+  margin: 0 0 0.3rem 0;
+  font-size: 1.1rem;
+  color: #e6c89a;
   font-family: Georgia, serif;
 }
 
-.songArtist {
-  margin: 0.3rem 0 0 0;
-  color: #a89070;
-  font-size: 1rem;
-  font-family: Georgia, serif;
+.songMainInfo p {
+  margin: 0.2rem 0;
+  font-size: 0.9rem;
+  color: #b89562;
 }
 
 .matchScore {
-  background: #c9a876;
-  color: #1a1a1a;
-  padding: 0.5rem 1rem;
-  border-radius: 12px;
   font-weight: 700;
-  font-size: 0.9rem;
-  box-shadow: 0 3px 8px rgba(201, 168, 118, 0.4);
+  color: #d4a574;
+  font-size: 1rem;
   font-family: 'Courier New', monospace;
 }
 
 .songDetails {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 1rem;
   margin: 1rem 0;
+  padding: 1rem;
+  background: rgba(0,0,0,0.3);
+  border-radius: 4px;
 }
 
 .detailsRow {
   display: flex;
-  gap: 0.5rem;
-  font-size: 0.95rem;
-  color: #d4c4a8;
+  flex-direction: column;
+  gap: 0.3rem;
 }
 
 .detailLabel {
-  font-weight: 600;
-  color: #c9a876;
+  font-size: 0.75rem;
+  color: #999;
+  text-transform: uppercase;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0.5px;
 }
 
-.difficultyBadge {
-  background: rgba(139, 112, 70, 0.6);
-  color: #e6d4b8;
-  padding: 0.3rem 0.8rem;
-  border-radius: 8px;
-  font-size: 0.85rem;
-  text-transform: capitalize;
+.detailsRow span:last-child {
+  color: #e6c89a;
   font-weight: 600;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-  border: 1px solid rgba(139, 112, 70, 0.4);
   font-family: 'Courier New', monospace;
 }
 
-/* ===================
-   CHORDS
-   =================== */
-.chords {
+.audioPreview {
   margin: 1rem 0;
 }
 
-.chordList {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-  margin-top: 0.5rem;
+.audioPlayer {
+  width: 100%;
+  height: 40px;
+  border-radius: 4px;
+  background: #0d0d0d;
 }
 
-.chord {
-  background: rgba(26, 26, 26, 0.7);
-  border: 2px solid #8b7355;
-  color: #e6d4b8;
-  padding: 0.5rem 0.9rem;
-  border-radius: 6px;
-  font-weight: 700;
-  font-size: 0.9rem;
-  font-family: 'Courier New', monospace;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-}
-
-/* ===================
-   MATCH REASONS
-   =================== */
-.matchReasons {
-  margin: 1rem 0;
-}
-
-.reasonsList {
-  margin: 0.5rem 0 0 0;
-  padding-left: 1.5rem;
-  color: #d4c4a8;
-  font-size: 0.95rem;
-}
-
-.reasonsList li {
-  margin-bottom: 0.4rem;
-}
-
-/* ===================
-   TECHNIQUES
-   =================== */
-.techniques {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
+.songLinks {
   margin-top: 1rem;
 }
 
-.techniqueBadge {
-  background: rgba(201, 168, 118, 0.15);
-  color: #c9a876;
-  padding: 0.5rem 0.9rem;
-  border-radius: 8px;
-  font-size: 0.85rem;
-  font-weight: 500;
-  border: 1px solid rgba(201, 168, 118, 0.25);
-  font-family: 'Courier New', monospace;
+.spotifyLink {
+  display: inline-block;
+  padding: 0.7rem 1.5rem;
+  background: linear-gradient(135deg, #1db954 0%, #1ed760 100%);
+  color: white;
+  text-decoration: none;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(29, 185, 84, 0.3);
+}
+
+.spotifyLink:hover {
+  background: linear-gradient(135deg, #1ed760 0%, #1db954 100%);
+  box-shadow: 0 6px 16px rgba(29, 185, 84, 0.5);
+  transform: translateY(-2px);
 }
 
 /* ===================
@@ -736,11 +920,48 @@
    =================== */
 .footer {
   text-align: center;
-  padding: 2rem;
+  padding: 2rem 1rem 1.5rem 1rem;
+  margin-top: 3rem;
+  border-top: 1px solid #2a2a2a;
+}
+
+.footerContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.footerText {
   color: #888;
-  font-size: 0.9rem;
-  font-family: Georgia, serif;
-  font-style: italic;
+  font-size: 0.85rem;
+  font-family: 'Courier New', monospace;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.socialLinks {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.socialLink {
+  color: #888;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.socialLink:hover {
+  color: #d4a574;
+  transform: translateY(-2px);
+}
+
+.socialIcon {
+  width: 24px;
+  height: 24px;
 }
 
 /* ===================
@@ -751,51 +972,27 @@
     font-size: 2.5rem;
   }
 
-  .uploadSection::before {
-    font-size: 1.3rem;
-    letter-spacing: 4px;
-    height: 60px;
+  .ampLogo {
+    font-size: 2rem;
+    letter-spacing: 8px;
   }
 
-  .form {
-    margin-top: 60px;
-    padding: 2rem 1.5rem;
-  }
-
-  .uploadSection,
-  .analysisSection,
-  .recommendationsSection {
-    padding: 1.5rem;
+  .controlsSection {
+    flex-direction: column;
+    align-items: stretch;
+    padding-bottom: 3.5rem;
   }
 
   .moodGrid {
+    justify-content: center;
     gap: 2rem 2rem;
   }
 
-  .moodButton {
-    width: 55px;
-    height: 55px;
-  }
-
-  .moodButton::before {
-    width: 62px;
-    height: 62px;
-  }
-
-  .moodButton::after {
-    height: 12px;
-  }
-
-  .moodButton span {
-    font-size: 0.65rem;
-    bottom: -22px;
+  .submitButton {
+    width: 100%;
   }
 
   .statsGrid {
     grid-template-columns: repeat(2, 1fr);
-  }
-
-  .songDetails {
-    grid-template-columns: 1fr;
   }
 }

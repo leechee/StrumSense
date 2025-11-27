@@ -87,15 +87,15 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <div className={styles.header}>
-          <h1 className={styles.title}>StrumSense</h1>
-          <p className={styles.subtitle}>
-            Your AI-powered acoustic cover companion
-          </p>
-        </div>
-
         <div className={styles.uploadSection}>
           <form onSubmit={handleSubmit} className={styles.form}>
+            {/* Top section: StrumSense branding */}
+            <div className={styles.brandingSection}>
+              <h2 className={styles.ampLogo}>StrumSense</h2>
+              <p className={styles.tagline}>Find your next cover</p>
+            </div>
+
+            {/* Middle section: File upload area */}
             <div className={styles.fileUpload}>
               <label htmlFor="audio" className={styles.fileLabel}>
                 <div className={styles.uploadBox}>
@@ -108,9 +108,8 @@ export default function Home() {
                     </>
                   ) : (
                     <>
-                      <div className={styles.uploadIcon}>🎸</div>
-                      <p>Click to upload or drag and drop</p>
-                      <p className={styles.fileHint}>MP3, WAV, M4A (max 10MB)</p>
+                      <p className={styles.uploadText}>Click to upload or drag and drop</p>
+                      <p className={styles.fileHint}>MP3, WAV, M4A (max 12MB)</p>
                     </>
                   )}
                 </div>
@@ -124,29 +123,31 @@ export default function Home() {
               />
             </div>
 
-            <div className={styles.moodSelector}>
-              <label className={styles.moodLabel}>Select your mood (optional)</label>
-              <div className={styles.moodGrid}>
-                {moods.map((m) => (
-                  <button
-                    key={m}
-                    type="button"
-                    onClick={() => setMood(mood === m ? '' : m)}
-                    className={`${styles.moodButton} ${mood === m ? styles.moodButtonActive : ''}`}
-                  >
-                    <span>{m}</span>
-                  </button>
-                ))}
+            {/* Bottom section: Gold lustrous controls */}
+            <div className={styles.controlsSection}>
+              <div className={styles.moodSelector}>
+                <div className={styles.moodGrid}>
+                  {moods.map((m) => (
+                    <button
+                      key={m}
+                      type="button"
+                      onClick={() => setMood(mood === m ? '' : m)}
+                      className={`${styles.moodButton} ${mood === m ? styles.moodButtonActive : ''}`}
+                    >
+                      <span>{m}</span>
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            <button
-              type="submit"
-              disabled={!audioFile || isAnalyzing}
-              className={styles.submitButton}
-            >
-              {isAnalyzing ? 'Analyzing your playing...' : 'Get Recommendations'}
-            </button>
+              <button
+                type="submit"
+                disabled={!audioFile || isAnalyzing}
+                className={styles.submitButton}
+              >
+                {isAnalyzing ? 'Analyzing...' : 'Get Recommendations'}
+              </button>
+            </div>
           </form>
 
           {error && (
@@ -169,52 +170,62 @@ export default function Home() {
         {results && (
           <div className={styles.results}>
             <div className={styles.analysisSection}>
-              <h2>Your Playing Style</h2>
-              <div className={styles.vibeDescription}>
-                <p>{results.recommendations.vibeDescription}</p>
-              </div>
+              <h2>Audio Analysis</h2>
 
               <div className={styles.statsGrid}>
                 <div className={styles.stat}>
                   <span className={styles.statLabel}>Tempo</span>
                   <span className={styles.statValue}>
-                    {results.recommendations.yourPlayingStyle.tempo} BPM
+                    {Math.round(results.features.tempo)} BPM
                   </span>
                 </div>
                 <div className={styles.stat}>
                   <span className={styles.statLabel}>Key</span>
                   <span className={styles.statValue}>
-                    {results.recommendations.yourPlayingStyle.key}
+                    {results.features.key}
                   </span>
                 </div>
                 <div className={styles.stat}>
-                  <span className={styles.statLabel}>Style</span>
+                  <span className={styles.statLabel}>Energy</span>
                   <span className={styles.statValue}>
-                    {results.recommendations.yourPlayingStyle.isFingerstyle ? 'Fingerstyle' : 'Strumming'}
+                    {(results.features.energy * 100).toFixed(0)}%
                   </span>
                 </div>
                 <div className={styles.stat}>
-                  <span className={styles.statLabel}>Difficulty</span>
+                  <span className={styles.statLabel}>Fingerprint</span>
                   <span className={styles.statValue}>
-                    {results.recommendations.yourPlayingStyle.estimatedDifficulty}
+                    {results.fingerprint.totalPeaks} peaks
                   </span>
                 </div>
               </div>
 
-              {results.recommendations.recognizedSong && (
+              {results.identification && results.identification.identified && (
                 <div className={styles.recognizedSong}>
-                  <h3>Possible Match</h3>
+                  <h3>Song Identification</h3>
                   <div className={styles.songCard}>
+                    {results.identification.track.albumCover && (
+                      <img
+                        src={results.identification.track.albumCover}
+                        alt={`${results.identification.track.title} album cover`}
+                        className={styles.identifiedAlbumCover}
+                      />
+                    )}
                     <div className={styles.songInfo}>
                       <span className={styles.songTitle}>
-                        {results.recommendations.recognizedSong.title}
+                        {results.identification.track.title}
                       </span>
                       <span className={styles.songArtist}>
-                        {results.recommendations.recognizedSong.artist}
+                        {results.identification.track.artist}
                       </span>
+                      {results.identification.track.album && (
+                        <span className={styles.albumName}>
+                          {results.identification.track.album}
+                        </span>
+                      )}
                     </div>
                     <div className={styles.confidence}>
-                      {results.recommendations.recognizedSong.confidence}% match
+                      {results.identification.confidence}% confidence
+                      <p className={styles.confidenceMessage}>{results.identification.message}</p>
                     </div>
                   </div>
                 </div>
@@ -224,14 +235,14 @@ export default function Home() {
             <div className={styles.recommendationsSection}>
               <h2>Recommended Songs to Cover</h2>
               <p className={styles.recDescription}>
-                Based on your playing style{mood && ` and ${mood} mood`}
+                Based on audio fingerprint analysis{mood && ` and ${mood} mood`}
               </p>
 
               <div className={styles.songsList}>
-                {results.recommendations.recommendations.map((song) => (
-                  <div key={`${song.artist}-${song.title}`} className={styles.songRecommendation}>
+                {results.recommendations.map((song, index) => (
+                  <div key={`${song.trackId}-${index}`} className={styles.songRecommendation}>
                     <div className={styles.songHeader}>
-                      <div className={styles.rankBadge}>{song.rank}</div>
+                      <div className={styles.rankBadge}>{index + 1}</div>
                       {song.albumCover && (
                         <img
                           src={song.albumCover}
@@ -250,51 +261,52 @@ export default function Home() {
                     </div>
 
                     <div className={styles.songDetails}>
-                      <div className={styles.detailsRow}>
-                        <span className={styles.detailLabel}>Key:</span>
-                        <span>{song.keySignature}</span>
-                      </div>
-                      <div className={styles.detailsRow}>
-                        <span className={styles.detailLabel}>Tempo:</span>
-                        <span>{song.tempo} BPM</span>
-                      </div>
-                      <div className={styles.detailsRow}>
-                        <span className={styles.detailLabel}>Difficulty:</span>
-                        <span className={styles.difficultyBadge}>
-                          {song.difficulty}
-                        </span>
-                      </div>
-                      {song.capo > 0 && (
+                      {song.keySignature && (
                         <div className={styles.detailsRow}>
-                          <span className={styles.detailLabel}>Capo:</span>
-                          <span>Fret {song.capo}</span>
+                          <span className={styles.detailLabel}>Key:</span>
+                          <span>{song.keySignature}</span>
+                        </div>
+                      )}
+                      {song.tempo && (
+                        <div className={styles.detailsRow}>
+                          <span className={styles.detailLabel}>Tempo:</span>
+                          <span>{Math.round(song.tempo)} BPM</span>
+                        </div>
+                      )}
+                      {song.energy && (
+                        <div className={styles.detailsRow}>
+                          <span className={styles.detailLabel}>Energy:</span>
+                          <span>{(song.energy * 100).toFixed(0)}%</span>
+                        </div>
+                      )}
+                      {song.acousticness && (
+                        <div className={styles.detailsRow}>
+                          <span className={styles.detailLabel}>Acoustic:</span>
+                          <span>{(song.acousticness * 100).toFixed(0)}%</span>
                         </div>
                       )}
                     </div>
 
-                    <div className={styles.chords}>
-                      <span className={styles.detailLabel}>Chords:</span>
-                      <div className={styles.chordList}>
-                        {song.chords.slice(0, 6).map((chord, i) => (
-                          <span key={i} className={styles.chord}>{chord}</span>
-                        ))}
+                    {song.previewUrl && (
+                      <div className={styles.audioPreview}>
+                        <audio controls src={song.previewUrl} className={styles.audioPlayer}>
+                          Your browser does not support the audio element.
+                        </audio>
                       </div>
-                    </div>
+                    )}
 
-                    <div className={styles.matchReasons}>
-                      <span className={styles.detailLabel}>Why this matches:</span>
-                      <ul className={styles.reasonsList}>
-                        {song.matchReasons.map((reason, i) => (
-                          <li key={i}>{reason}</li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    <div className={styles.techniques}>
-                      {song.techniques.map((tech, i) => (
-                        <span key={i} className={styles.techniqueBadge}>{tech}</span>
-                      ))}
-                    </div>
+                    {song.trackViewUrl && (
+                      <div className={styles.songLinks}>
+                        <a
+                          href={song.trackViewUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={styles.spotifyLink}
+                        >
+                          Listen on Spotify
+                        </a>
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
@@ -304,7 +316,42 @@ export default function Home() {
       </main>
 
       <footer className={styles.footer}>
-        <p>Built with AI to help you discover your next acoustic cover</p>
+        <div className={styles.footerContent}>
+          <p className={styles.footerText}>Made for Music © 2025 Jason Lee</p>
+          <div className={styles.socialLinks}>
+            <a
+              href="https://github.com/leechee"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.socialLink}
+              aria-label="GitHub"
+            >
+              <svg className={styles.socialIcon} viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+              </svg>
+            </a>
+            <a
+              href="https://www.linkedin.com/in/jason-lee-ut"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.socialLink}
+              aria-label="LinkedIn"
+            >
+              <svg className={styles.socialIcon} viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+              </svg>
+            </a>
+            <a
+              href="mailto:jasomslee@gmail.com"
+              className={styles.socialLink}
+              aria-label="Email"
+            >
+              <svg className={styles.socialIcon} viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
       </footer>
     </div>
   );
