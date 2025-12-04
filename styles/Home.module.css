@@ -838,6 +838,19 @@
   border-radius: 4px;
   border: 2px solid #3a3a3a;
   box-shadow: 0 4px 8px rgba(0,0,0,0.6);
+  object-fit: cover;
+}
+
+.identifiedAlbumCoverPlaceholder {
+  width: 80px;
+  height: 80px;
+  border-radius: 4px;
+  border: 2px solid #3a3a3a;
+  background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.6);
 }
 
 .songInfo {
@@ -942,6 +955,25 @@
   border-radius: 4px;
   border: 2px solid #3a3a3a;
   box-shadow: 0 4px 8px rgba(0,0,0,0.6);
+  object-fit: cover;
+}
+
+.albumCoverPlaceholder {
+  width: 60px;
+  height: 60px;
+  border-radius: 4px;
+  border: 2px solid #3a3a3a;
+  background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.6);
+}
+
+.musicIcon {
+  width: 30px;
+  height: 30px;
+  color: #666;
 }
 
 .songMainInfo {
@@ -1016,19 +1048,20 @@
 .musicbrainzLink {
   display: inline-block;
   padding: 0.7rem 1.5rem;
-  background: linear-gradient(135deg, #ba478f 0%, #8e44ad 100%);
-  color: white;
+  background: linear-gradient(135deg, #c9a876 0%, #a87f4a 100%);
+  color: #1a1a1a;
   text-decoration: none;
   border-radius: 20px;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 0.9rem;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 12px rgba(186, 71, 143, 0.3);
+  box-shadow: 0 4px 12px rgba(201, 168, 118, 0.3);
+  font-family: Georgia, serif;
 }
 
 .musicbrainzLink:hover {
-  background: linear-gradient(135deg, #8e44ad 0%, #ba478f 100%);
-  box-shadow: 0 6px 16px rgba(186, 71, 143, 0.5);
+  background: linear-gradient(135deg, #d4a574 0%, #c9a876 100%);
+  box-shadow: 0 6px 16px rgba(212, 165, 116, 0.5);
   transform: translateY(-2px);
 }
 
@@ -1039,7 +1072,6 @@
   text-align: center;
   padding: 2rem 1rem 1.5rem 1rem;
   margin-top: 3rem;
-  border-top: 1px solid #2a2a2a;
 }
 
 .footerContent {

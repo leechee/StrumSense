@@ -208,12 +208,21 @@ export default function Home() {
                 <div className={styles.recognizedSong}>
                   <h3>Song Identification</h3>
                   <div className={styles.songCard}>
-                    {results.identification.track.albumCover && (
+                    {results.identification.track.albumCover ? (
                       <img
                         src={results.identification.track.albumCover}
                         alt={`${results.identification.track.title} album cover`}
                         className={styles.identifiedAlbumCover}
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                        }}
                       />
+                    ) : (
+                      <div className={styles.identifiedAlbumCoverPlaceholder}>
+                        <svg className={styles.musicIcon} viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                        </svg>
+                      </div>
                     )}
                     <div className={styles.songInfo}>
                       <span className={styles.songTitle}>
@@ -258,12 +267,21 @@ export default function Home() {
                   <div key={`${song.trackId}-${index}`} className={styles.songRecommendation}>
                     <div className={styles.songHeader}>
                       <div className={styles.rankBadge}>{index + 1}</div>
-                      {song.albumCover && (
+                      {song.albumCover ? (
                         <img
                           src={song.albumCover}
                           alt={`${song.title} album cover`}
                           className={styles.albumCover}
+                          onError={(e) => {
+                            e.target.style.display = 'none';
+                          }}
                         />
+                      ) : (
+                        <div className={styles.albumCoverPlaceholder}>
+                          <svg className={styles.musicIcon} viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                          </svg>
+                        </div>
                       )}
                       <div className={styles.songMainInfo}>
                         <h3 className={styles.songTitle}>{song.title}</h3>
