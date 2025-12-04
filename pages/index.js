@@ -14,8 +14,8 @@ export default function Home() {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      if (file.size > 12 * 1024 * 1024) {
-        setError('File size must be less than 12MB');
+      if (file.size > 4 * 1024 * 1024) {
+        setError('File size must be less than 4MB');
         return;
       }
       setAudioFile(file);

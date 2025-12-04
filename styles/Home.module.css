@@ -3,20 +3,10 @@
    =================== */
 .container {
   min-height: 100vh;
-  background:
-    linear-gradient(135deg,
-      rgba(200, 200, 210, 0.9) 0%,
-      rgba(180, 180, 195, 0.95) 25%,
-      rgba(220, 220, 230, 0.9) 50%,
-      rgba(180, 180, 195, 0.95) 75%,
-      rgba(200, 200, 210, 0.9) 100%),
-    repeating-linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0.03) 0px,
-      transparent 1px,
-      transparent 2px,
-      rgba(0, 0, 0, 0.02) 3px
-    );
+  background: url('/assets/silver background.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
   color: #f5e6d3;
   position: relative;
 }
@@ -80,7 +70,11 @@
    REALISTIC AMP INTERFACE
    =================== */
 .uploadSection {
-  background: #0a0a0a;
+  background:
+    linear-gradient(rgba(10, 10, 10, 0.85), rgba(10, 10, 10, 0.85)),
+    url('/assets/amp texture.jpg');
+  background-size: cover;
+  background-position: center;
   border-radius: 12px;
   padding: 0;
   box-shadow:
@@ -1082,7 +1076,7 @@
 }
 
 .footerText {
-  color: #888;
+  color: #1a1a1a;
   font-size: 0.85rem;
   font-family: 'Courier New', monospace;
   margin: 0;
@@ -1096,7 +1090,7 @@
 }
 
 .socialLink {
-  color: #888;
+  color: #1a1a1a;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
