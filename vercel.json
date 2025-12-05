@@ -4,7 +4,7 @@
   "installCommand": "npm install",
   "functions": {
     "pages/api/analyze-audio.js": {
-      "maxDuration": 60,
+      "maxDuration": 300,
       "memory": 1024
     }
   }
