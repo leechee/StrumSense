@@ -1,12 +1,9 @@
 services:
   - type: web
     name: strumsense-audio-analysis
-    env: python
+    env: docker
     plan: free
-    buildCommand: apt-get update && apt-get install -y chromaprint-tools ffmpeg && pip install -r requirements.txt
-    startCommand: gunicorn app:app
+    dockerfilePath: ./Dockerfile
     envVars:
-      - key: PYTHON_VERSION
-        value: 3.11.6
       - key: ACOUSTID_API_KEY
         value: bQjVA25JFn
