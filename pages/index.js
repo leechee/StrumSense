@@ -109,7 +109,7 @@ export default function Home() {
                   ) : (
                     <>
                       <p className={styles.uploadText}>Click to upload or drag and drop</p>
-                      <p className={styles.fileHint}>MP3, WAV, M4A (max 12MB)</p>
+                      <p className={styles.fileHint}>MP3, WAV, M4A (max 4MB)</p>
                     </>
                   )}
                 </div>

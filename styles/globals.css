@@ -15,24 +15,8 @@ a {
   text-decoration: none;
 }
 
-/* Dark wood texture background */
+/* Silver background to match container */
 body {
-  background-color: #2a1810;
-  background-image:
-    repeating-linear-gradient(90deg,
-      transparent,
-      transparent 2px,
-      rgba(0,0,0,.15) 2px,
-      rgba(0,0,0,.15) 4px),
-    repeating-linear-gradient(0deg,
-      #3d2517,
-      #3d2517 8px,
-      #4a2f1f 8px,
-      #4a2f1f 16px),
-    linear-gradient(180deg,
-      rgba(0,0,0,0.1) 0%,
-      transparent 50%,
-      rgba(0,0,0,0.1) 100%);
-  background-size: 100% 100%;
+  background-color: #c8c8d2;
   min-height: 100vh;
 }

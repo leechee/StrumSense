@@ -16,14 +16,17 @@ export default async function handler(req, res) {
   }
 
   try {
+    // Use /tmp for Vercel (read-only filesystem), uploads for local dev
+    const uploadDir = process.env.VERCEL ? '/tmp' : path.join(process.cwd(), 'uploads');
+
     const form = formidable({
-      uploadDir: path.join(process.cwd(), 'uploads'),
+      uploadDir: uploadDir,
       keepExtensions: true,
       maxFileSize: 4 * 1024 * 1024, // 4 MB limit for Vercel
     });
 
-    if (!fs.existsSync(path.join(process.cwd(), 'uploads'))) {
-      fs.mkdirSync(path.join(process.cwd(), 'uploads'), { recursive: true });
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
     }
 
     const [fields, files] = await form.parse(req);
