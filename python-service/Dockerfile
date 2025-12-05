@@ -2,7 +2,8 @@ FROM python:3.11-slim
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
-    chromaprint-tools \
+    libchromaprint-dev \
+    libchromaprint-tools \
     ffmpeg \
     && rm -rf /var/lib/apt/lists/*
 
