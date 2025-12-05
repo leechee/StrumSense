@@ -63,8 +63,8 @@ export default async function handler(req, res) {
     return res.status(200).json({
       success: true,
       fingerprint: {
-        totalHashes: fingerprint.total_hashes,
-        totalPeaks: fingerprint.total_peaks
+        totalHashes: fingerprint.total_hashes || 0,
+        totalPeaks: fingerprint.total_peaks || 0
       },
       features: features,
       identification: result.identification,
