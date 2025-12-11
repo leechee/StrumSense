@@ -8,3 +8,5 @@ services:
     envVars:
       - key: ACOUSTID_API_KEY
         value: bQjVA25JFn
+      - key: GENIUS_API_KEY
+        sync: false

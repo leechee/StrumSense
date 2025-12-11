@@ -15,11 +15,18 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Download transformers model at build time to avoid download during runtime
+RUN python -c "from transformers import pipeline; pipeline('sentiment-analysis', model='distilbert-base-uncased-finetuned-sst-2-english')"
+
 # Copy application code
 COPY . .
 
 # Expose port
 EXPOSE 10000
 
-# Start gunicorn with increased timeout and workers
-CMD ["gunicorn", "--bind", "0.0.0.0:10000", "--timeout", "120", "--workers", "2", "app:app"]
+# Set environment variables for AI models
+ENV TRANSFORMERS_CACHE=/app/.cache
+ENV HF_HOME=/app/.cache
+
+# Start gunicorn with increased timeout for AI processing
+CMD ["gunicorn", "--bind", "0.0.0.0:10000", "--timeout", "180", "--workers", "1", "--threads", "2", "app:app"]

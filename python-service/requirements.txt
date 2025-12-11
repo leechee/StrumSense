@@ -5,3 +5,11 @@ pyacoustid==1.3.0
 numpy>=1.26.0
 librosa>=0.10.1
 soundfile>=0.12.1
+transformers==4.36.0
+torch==2.1.0
+beautifulsoup4==4.12.2
+requests==2.31.0
+openl3==0.4.1
+yt-dlp==2023.12.30
+tqdm==4.66.1
+# pinecone==5.0.0  # COMMENTED OUT: Using JSON file instead for simplicity

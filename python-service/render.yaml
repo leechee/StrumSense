@@ -1,9 +1,0 @@
-services:
-  - type: web
-    name: strumsense-audio-analysis
-    env: docker
-    plan: free
-    dockerfilePath: ./Dockerfile
-    envVars:
-      - key: ACOUSTID_API_KEY
-        value: bQjVA25JFn
