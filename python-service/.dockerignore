@@ -1,0 +1,30 @@
+# Exclude audio files to reduce image size
+song_database/audio/
+*.mp3
+*.wav
+*.flac
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+
+# Git
+.git/
+.gitignore
+
+# Other
+*.log
+.env
+README.md
