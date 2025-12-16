@@ -193,7 +193,9 @@ export default function Home() {
                 <div className={styles.stat}>
                   <span className={styles.statLabel}>Duration</span>
                   <span className={styles.statValue}>
-                    {Math.floor(results.features.duration / 60)}:{Math.floor(results.features.duration % 60).toString().padStart(2, '0')}
+                    {results.duration ?
+                      `${Math.floor(results.duration / 60)}:${Math.floor(results.duration % 60).toString().padStart(2, '0')}` :
+                      'N/A'}
                   </span>
                 </div>
                 <div className={styles.stat}>
@@ -306,16 +308,34 @@ export default function Home() {
                           <span>{Math.round(song.tempo)} BPM</span>
                         </div>
                       )}
-                      {song.genre && (
+                      {song.energy !== null && song.energy !== undefined && (
                         <div className={styles.detailsRow}>
-                          <span className={styles.detailLabel}>Genre:</span>
-                          <span>{song.genre}</span>
+                          <span className={styles.detailLabel}>Energy:</span>
+                          <span>{song.energy.toFixed(4)}</span>
+                        </div>
+                      )}
+                      {song.brightness && (
+                        <div className={styles.detailsRow}>
+                          <span className={styles.detailLabel}>Brightness:</span>
+                          <span>{Math.round(song.brightness)} Hz</span>
                         </div>
                       )}
                       {song.difficulty !== undefined && (
                         <div className={styles.detailsRow}>
                           <span className={styles.detailLabel}>Difficulty:</span>
                           <span>{song.difficulty}/100</span>
+                        </div>
+                      )}
+                      {song.openl3Score && (
+                        <div className={styles.detailsRow}>
+                          <span className={styles.detailLabel}>OpenL3:</span>
+                          <span>{song.openl3Score}%</span>
+                        </div>
+                      )}
+                      {song.librosaScore && (
+                        <div className={styles.detailsRow}>
+                          <span className={styles.detailLabel}>Librosa:</span>
+                          <span>{song.librosaScore}%</span>
                         </div>
                       )}
                     </div>

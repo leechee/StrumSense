@@ -49,21 +49,45 @@
 
 .title {
   font-size: 3.5rem;
-  font-weight: 700;
+  font-weight: 900;
   margin: 0;
-  color: #d4a574;
-  font-family: Georgia, 'Times New Roman', serif;
-  letter-spacing: 2px;
+  background: linear-gradient(180deg,
+    #ffffff 0%,
+    #f8f8f8 10%,
+    #e0e0e0 20%,
+    #ffffff 30%,
+    #c8c8c8 45%,
+    #f0f0f0 55%,
+    #a8a8a8 70%,
+    #d8d8d8 80%,
+    #909090 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+  letter-spacing: 8px;
+  text-transform: uppercase;
+  filter: drop-shadow(0 3px 6px rgba(0,0,0,0.9))
+          drop-shadow(0 0 30px rgba(255,255,255,0.6))
+          drop-shadow(0 -2px 4px rgba(255,255,255,0.8))
+          drop-shadow(0 1px 1px rgba(255,255,255,0.9));
+  position: relative;
 }
 
 .subtitle {
   font-size: 1.2rem;
   margin-top: 0.5rem;
-  opacity: 0.9;
-  font-weight: 400;
-  color: #c9b19a;
-  font-family: Georgia, serif;
-  font-style: italic;
+  font-weight: 600;
+  background: linear-gradient(180deg, #c0c0c0 0%, #909090 50%, #707070 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.6))
+          drop-shadow(0 0 10px rgba(255,255,255,0.2));
 }
 
 /* ===================
@@ -152,9 +176,9 @@
 }
 
 .ampLogo {
-  font-family: 'Courier New', 'Consolas', monospace;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
   font-size: 2rem;
-  font-weight: 900;
+  font-weight: 700;
   background: linear-gradient(180deg, #ffffff 0%, #d0d0d0 50%, #b0b0b0 100%);
   -webkit-background-clip: text;
   background-clip: text;
@@ -186,9 +210,9 @@
 
 /* Tagline below logo */
 .tagline {
-  font-family: 'Courier New', 'Consolas', monospace;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
   font-size: 0.85rem;
-  font-weight: 700;
+  font-weight: 600;
   background: linear-gradient(180deg, #e8e8e8 0%, #b0b0b0 50%, #888 100%);
   -webkit-background-clip: text;
   background-clip: text;
@@ -209,7 +233,7 @@
     url('/assets/amp texture.jpg');
   background-size: cover, cover;
   background-position: center, center;
-  padding: 2rem 1.5rem;
+  padding: 1.5rem 1.5rem;
   border-bottom: 3px solid #0d0d0d;
   box-shadow:
     inset 0 4px 12px rgba(0,0,0,0.5),
@@ -286,7 +310,7 @@
   font-size: 1.2rem;
   color: #999;
   margin: 0 0 0.5rem 0;
-  font-family: 'Courier New', monospace;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
   font-weight: 600;
 }
 
@@ -294,14 +318,14 @@
   font-size: 0.9rem;
   color: #666;
   margin: 0.5rem 0 0 0;
-  font-family: 'Courier New', monospace;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
 }
 
 .fileName {
   font-size: 1.2rem;
   color: #aaa;
   font-weight: 600;
-  font-family: 'Courier New', monospace;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
   display: block;
   margin-bottom: 0.5rem;
 }
@@ -309,7 +333,7 @@
 .fileSize {
   font-size: 0.9rem;
   color: #777;
-  font-family: 'Courier New', monospace;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
 }
 
 .fileInput {
@@ -321,7 +345,7 @@
    =================== */
 .controlsSection {
   background: linear-gradient(180deg, #d4b380 0%, #c9a876 10%, #b89562 40%, #a68a58 70%, #8b7046 100%);
-  padding: 2.5rem 2rem 3rem 2rem;
+  padding: 1.8rem 2rem 2rem 2rem;
   border-top: 5px solid #e6c89a;
   border-bottom: 4px solid #6d5a3a;
   box-shadow:
@@ -395,10 +419,10 @@
   top: -1.8rem;
   left: 0;
   font-size: 0.6rem;
-  font-weight: 800;
+  font-weight: 600;
   color: #2a2a2a;
   letter-spacing: 2px;
-  font-family: 'Courier New', monospace;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
   text-shadow: 0 1px 0 rgba(255,255,255,0.3);
 }
 
@@ -575,22 +599,9 @@
   }
 }
 
-/* Labels below knobs - larger and more readable */
+/* Labels below knobs - hidden */
 .moodButton span {
-  position: absolute;
-  bottom: -28px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 0.75rem;
-  font-weight: 800;
-  color: #2a2a2a;
-  text-transform: uppercase;
-  white-space: nowrap;
-  font-family: 'Courier New', monospace;
-  letter-spacing: 1px;
-  text-shadow:
-    0 1px 0 rgba(255,255,255,0.4),
-    0 -1px 0 rgba(0,0,0,0.2);
+  display: none;
 }
 
 /* ===================
@@ -604,8 +615,8 @@
   border: 3px solid #2a2a2a;
   border-radius: 6px;
   font-size: 1rem;
-  font-weight: 800;
-  font-family: 'Courier New', monospace;
+  font-weight: 600;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
   letter-spacing: 1.5px;
   text-transform: uppercase;
   cursor: pointer;
@@ -682,7 +693,7 @@
 .error p {
   color: #ff6b6b;
   margin: 0;
-  font-family: 'Courier New', monospace;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
   font-size: 0.95rem;
   text-shadow: 0 1px 2px rgba(0,0,0,0.5);
 }
@@ -724,14 +735,14 @@
   color: #d4a574;
   font-size: 1.1rem;
   margin: 0.5rem 0;
-  font-family: 'Courier New', monospace;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
   font-weight: 600;
 }
 
 .loadingHint {
   color: #999 !important;
   font-size: 0.9rem !important;
-  font-style: italic;
+  
 }
 
 /* ===================
@@ -758,7 +769,7 @@
 .analysisSection h2,
 .recommendationsSection h2 {
   color: #d4a574;
-  font-family: Georgia, serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
   font-size: 1.8rem;
   margin: 0 0 1.5rem 0;
   text-shadow: 0 2px 4px rgba(0,0,0,0.5);
@@ -787,7 +798,7 @@
   font-size: 0.85rem;
   color: #999;
   text-transform: uppercase;
-  font-family: 'Courier New', monospace;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
   letter-spacing: 1px;
   margin-bottom: 0.5rem;
 }
@@ -797,7 +808,7 @@
   font-size: 1.5rem;
   font-weight: 700;
   color: #d4a574;
-  font-family: 'Courier New', monospace;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
 }
 
 .recognizedSong {
@@ -808,7 +819,7 @@
 
 .recognizedSong h3 {
   color: #c9a876;
-  font-family: Georgia, serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
   font-size: 1.3rem;
   margin: 0 0 1rem 0;
 }
@@ -858,19 +869,19 @@
   font-size: 1.2rem;
   font-weight: 700;
   color: #e6c89a;
-  font-family: Georgia, serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
 }
 
 .songArtist {
   font-size: 1rem;
   color: #b89562;
-  font-family: Georgia, serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
 }
 
 .albumName {
   font-size: 0.85rem;
   color: #888;
-  font-style: italic;
+  
 }
 
 .confidence {
@@ -878,7 +889,7 @@
   color: #d4a574;
   font-weight: 700;
   font-size: 1.1rem;
-  font-family: 'Courier New', monospace;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
 }
 
 .confidenceMessage {
@@ -889,9 +900,9 @@
 
 .recDescription {
   color: #999;
-  font-style: italic;
+  
   margin-bottom: 1.5rem;
-  font-family: Georgia, serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
 }
 
 .songsList {
@@ -940,7 +951,7 @@
   box-shadow:
     0 3px 8px rgba(0,0,0,0.5),
     inset 0 1px 0 rgba(255,255,255,0.3);
-  font-family: 'Courier New', monospace;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
 }
 
 .albumCover {
@@ -978,7 +989,7 @@
   margin: 0 0 0.3rem 0;
   font-size: 1.1rem;
   color: #e6c89a;
-  font-family: Georgia, serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
 }
 
 .songMainInfo p {
@@ -991,7 +1002,7 @@
   font-weight: 700;
   color: #d4a574;
   font-size: 1rem;
-  font-family: 'Courier New', monospace;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
 }
 
 .songDetails {
@@ -1014,14 +1025,14 @@
   font-size: 0.75rem;
   color: #999;
   text-transform: uppercase;
-  font-family: 'Courier New', monospace;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
   letter-spacing: 0.5px;
 }
 
 .detailsRow span:last-child {
   color: #e6c89a;
   font-weight: 600;
-  font-family: 'Courier New', monospace;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
 }
 
 .audioPreview {
@@ -1050,7 +1061,7 @@
   font-size: 0.9rem;
   transition: all 0.2s ease;
   box-shadow: 0 4px 12px rgba(201, 168, 118, 0.3);
-  font-family: Georgia, serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
 }
 
 .musicbrainzLink:hover {
@@ -1078,7 +1089,7 @@
 .footerText {
   color: #1a1a1a;
   font-size: 0.85rem;
-  font-family: 'Courier New', monospace;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
   margin: 0;
   letter-spacing: 0.5px;
 }
