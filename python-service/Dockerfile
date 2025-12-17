@@ -16,8 +16,26 @@ WORKDIR /app
 COPY requirements.txt .
 # Upgrade pip first
 RUN pip install --no-cache-dir --upgrade pip
-# Install dependencies with increased timeout
-RUN pip install --no-cache-dir --timeout=1000 -r requirements.txt
+# Install all dependencies except openl3 first
+RUN pip install --no-cache-dir --timeout=1000 \
+    Flask==3.0.0 \
+    flask-cors==4.0.0 \
+    gunicorn==21.2.0 \
+    numpy==1.26.4 \
+    soundfile==0.12.1 \
+    requests==2.31.0 \
+    tensorflow==2.15.0 \
+    keras==2.15.0 \
+    scikit-image==0.22.0 \
+    scipy==1.11.4 \
+    librosa==0.10.1 \
+    yt-dlp==2023.12.30 \
+    tqdm==4.66.1 \
+    python-dotenv==1.0.0
+# Install openl3 separately with retries
+RUN pip install --no-cache-dir --timeout=2000 --retries 5 openl3==0.4.2 || \
+    pip install --no-cache-dir --timeout=2000 --retries 5 openl3==0.4.2 || \
+    pip install --no-cache-dir --timeout=2000 --retries 5 openl3==0.4.2
 
 # Copy application code
 COPY . .
