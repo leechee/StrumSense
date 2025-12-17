@@ -19,22 +19,24 @@ EMBEDDINGS_FILE = 'song_database/embeddings.json'
 # Job storage for async processing
 JOBS = {}  # {job_id: {status, result, error, created_at}}
 
-print("=" * 50)
-print("Starting StrumSense Audio Analysis Service")
-print(f"Working directory: {os.getcwd()}")
-print(f"Files in current directory: {os.listdir('.')}")
+print("=" * 50, flush=True)
+print("Starting StrumSense Audio Analysis Service", flush=True)
+print(f"Working directory: {os.getcwd()}", flush=True)
+print(f"Files in current directory: {os.listdir('.')}", flush=True)
 if os.path.exists('song_database'):
-    print(f"Files in song_database: {os.listdir('song_database')}")
-print("=" * 50)
+    print(f"Files in song_database: {os.listdir('song_database')}", flush=True)
+else:
+    print("✗ song_database directory does not exist!", flush=True)
+print("=" * 50, flush=True)
 
-print("Loading song embeddings database...")
+print("Loading song embeddings database...", flush=True)
 if os.path.exists(EMBEDDINGS_FILE):
     with open(EMBEDDINGS_FILE, 'r') as f:
         EMBEDDINGS_DB = json.load(f)
-    print(f"✓ Loaded {len(EMBEDDINGS_DB)} song embeddings")
+    print(f"✓ Loaded {len(EMBEDDINGS_DB)} song embeddings", flush=True)
 else:
-    print(f"✗ Warning: {EMBEDDINGS_FILE} not found")
-    print(f"Current directory contents: {os.listdir('.')}")
+    print(f"✗ Warning: {EMBEDDINGS_FILE} not found", flush=True)
+    print(f"Current directory contents: {os.listdir('.')}", flush=True)
 
 @app.route('/', methods=['GET'])
 def root():
