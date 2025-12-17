@@ -1,9 +1,12 @@
 FROM python:3.11-slim
 
-# Install system dependencies
+# Install system dependencies including build tools
 RUN apt-get update && apt-get install -y \
     ffmpeg \
     libsndfile1 \
+    build-essential \
+    git \
+    wget \
     && rm -rf /var/lib/apt/lists/*
 
 # Set working directory
@@ -11,7 +14,10 @@ WORKDIR /app
 
 # Copy requirements and install Python dependencies
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Upgrade pip first
+RUN pip install --no-cache-dir --upgrade pip
+# Install dependencies with increased timeout
+RUN pip install --no-cache-dir --timeout=1000 -r requirements.txt
 
 # Copy application code
 COPY . .

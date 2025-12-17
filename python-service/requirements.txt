@@ -1,11 +1,15 @@
 Flask==3.0.0
 flask-cors==4.0.0
 gunicorn==21.2.0
-numpy>=1.26.0
-librosa>=0.10.1
-soundfile>=0.12.1
+numpy==1.26.4
+librosa==0.10.1
+soundfile==0.12.1
 requests==2.31.0
+# Install tensorflow first as it's needed by openl3
+tensorflow==2.15.0
+keras==2.15.0
 openl3==0.4.1
+resampy==0.4.2
 yt-dlp==2023.12.30
 tqdm==4.66.1
 python-dotenv==1.0.0
