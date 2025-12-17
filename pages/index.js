@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 
@@ -8,6 +8,12 @@ export default function Home() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [results, setResults] = useState(null);
   const [error, setError] = useState(null);
+
+  // Warm up the Python service when the page loads
+  useEffect(() => {
+    fetch('/api/warmup')
+      .catch(() => {}); // Silently fail if warmup doesn't work
+  }, []);
 
   const moods = ['happy', 'sad', 'chill', 'romantic', 'energetic', 'nostalgic', 'inspiring'];
 

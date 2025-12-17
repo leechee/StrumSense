@@ -1,8 +1,12 @@
-# Exclude audio files to reduce image size
+# Exclude audio files to reduce image size (but keep JSON files)
 song_database/audio/
 *.mp3
 *.wav
 *.flac
+
+# Keep these important files
+!song_database/embeddings.json
+!song_database/metadata.json
 
 # Python cache
 __pycache__/

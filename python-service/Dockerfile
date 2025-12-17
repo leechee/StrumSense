@@ -16,8 +16,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application code
 COPY . .
 
-# Expose port
+# Expose port (Render will set PORT env variable)
 EXPOSE 10000
 
 # Start gunicorn with increased timeout for audio processing
-CMD ["gunicorn", "--bind", "0.0.0.0:10000", "--timeout", "120", "--workers", "1", "--threads", "2", "app:app"]
+# Use PORT environment variable that Render provides, fallback to 10000
+CMD gunicorn --bind 0.0.0.0:${PORT:-10000} --timeout 120 --workers 1 --threads 2 app:app
