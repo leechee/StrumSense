@@ -67,14 +67,26 @@ export default async function handler(req, res) {
 
     const analysisResult = await analyzeAudioFeatures(audioPath);
 
+    // Clean up temp file
+    fs.unlinkSync(audioPath);
+
     if (!analysisResult.success) {
-      fs.unlinkSync(audioPath);
       return res.status(500).json({
         error: 'Failed to analyze audio',
         details: analysisResult.error
       });
     }
 
+    // If we got a job ID, return it immediately for polling
+    if (analysisResult.jobId) {
+      return res.status(202).json({
+        success: true,
+        jobId: analysisResult.jobId,
+        status: 'processing'
+      });
+    }
+
+    // Legacy synchronous response (shouldn't happen with async service)
     const { features, similarSongs } = analysisResult;
 
     let recommendations = [];

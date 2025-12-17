@@ -8,12 +8,26 @@ export default function Home() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [results, setResults] = useState(null);
   const [error, setError] = useState(null);
+  const [analysisProgress, setAnalysisProgress] = useState('');
+  const [elapsedTime, setElapsedTime] = useState(0);
 
   // Warm up the Python service when the page loads
   useEffect(() => {
     fetch('/api/warmup')
       .catch(() => {}); // Silently fail if warmup doesn't work
   }, []);
+
+  // Timer for elapsed time during analysis
+  useEffect(() => {
+    let interval;
+    if (isAnalyzing) {
+      setElapsedTime(0);
+      interval = setInterval(() => {
+        setElapsedTime(prev => prev + 1);
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [isAnalyzing]);
 
   const moods = ['happy', 'sad', 'chill', 'romantic', 'energetic', 'nostalgic', 'inspiring'];
 
@@ -29,6 +43,36 @@ export default function Home() {
     }
   };
 
+  const pollJobStatus = async (jobId) => {
+    const maxAttempts = 180; // 15 minutes max (5 second intervals)
+    let attempts = 0;
+
+    while (attempts < maxAttempts) {
+      try {
+        const response = await fetch(`/api/check-job?jobId=${jobId}`);
+        const data = await response.json();
+
+        if (response.status === 200 && data.success) {
+          // Job completed successfully
+          return data;
+        } else if (response.status === 500) {
+          // Job failed
+          throw new Error(data.details || 'Analysis failed');
+        }
+
+        // Job still processing (202 status)
+        // Wait 5 seconds before next poll
+        await new Promise(resolve => setTimeout(resolve, 5000));
+        attempts++;
+
+      } catch (err) {
+        throw new Error(`Failed to check job status: ${err.message}`);
+      }
+    }
+
+    throw new Error('Analysis timed out after 15 minutes');
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -40,6 +84,7 @@ export default function Home() {
     setIsAnalyzing(true);
     setError(null);
     setResults(null);
+    setAnalysisProgress('Uploading audio...');
 
     try {
       const formData = new FormData();
@@ -51,36 +96,49 @@ export default function Home() {
         localStorage.setItem('userId', `user_${Date.now()}`);
       }
 
+      // Start the analysis job
+      setAnalysisProgress('Starting analysis...');
       const response = await fetch('/api/analyze-audio', {
         method: 'POST',
         body: formData,
       });
 
       if (!response.ok) {
-        throw new Error('Failed to analyze audio');
+        throw new Error('Failed to start analysis');
       }
 
       const data = await response.json();
-      setResults(data);
 
-      await fetch('/api/save-upload', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId: localStorage.getItem('userId'),
-          audioFeatures: data.analysis,
-          recognizedSong: data.recommendations.recognizedSong,
-          timestamp: new Date().toISOString(),
-        }),
-      });
+      // If we got a job ID, start polling
+      if (data.jobId) {
+        setAnalysisProgress('Analyzing audio features...');
+        const results = await pollJobStatus(data.jobId);
+        setResults(results);
+
+        // Save upload to history
+        await fetch('/api/save-upload', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userId: localStorage.getItem('userId'),
+            audioFeatures: results.analysis,
+            recognizedSong: results.recommendations?.[0],
+            timestamp: new Date().toISOString(),
+          }),
+        });
+      } else {
+        // Legacy synchronous response (shouldn't happen)
+        setResults(data);
+      }
 
     } catch (err) {
       setError(err.message);
       console.error('Error:', err);
     } finally {
       setIsAnalyzing(false);
+      setAnalysisProgress('');
     }
   };
 
@@ -172,9 +230,8 @@ export default function Home() {
           <div className={styles.loading}>
             <div className={styles.spinner}></div>
             <p>Analyzing your acoustic performance...</p>
-            <p className={styles.loadingHint}>
-              Detecting tempo, chords, and musical characteristics
-            </p>
+            <p className={styles.loadingHint}>This may take 1-4 minutes</p>
+            <p className={styles.elapsedTime}>{Math.floor(elapsedTime / 60)}:{(elapsedTime % 60).toString().padStart(2, '0')}</p>
           </div>
         )}
 

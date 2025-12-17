@@ -7,12 +7,18 @@ import numpy as np
 import openl3
 import soundfile as sf
 import librosa
+import uuid
+import threading
+from datetime import datetime
 
 app = Flask(__name__)
 CORS(app)
 
 EMBEDDINGS_DB = {}
 EMBEDDINGS_FILE = 'song_database/embeddings.json'
+
+# Job storage for async processing
+JOBS = {}  # {job_id: {status, result, error, created_at}}
 
 print("=" * 50)
 print("Starting StrumSense Audio Analysis Service")
@@ -92,8 +98,116 @@ def analyze_audio():
         return jsonify({'error': str(e)}), 500
 
 
+@app.route('/analyze-async', methods=['POST'])
+def analyze_audio_async():
+    """Start audio analysis in background and return job ID"""
+    try:
+        if 'audio' not in request.files:
+            return jsonify({'error': 'No audio file provided'}), 400
+
+        audio_file = request.files['audio']
+
+        # Generate unique job ID
+        job_id = str(uuid.uuid4())
+
+        # Save audio file to temp location
+        with tempfile.NamedTemporaryFile(delete=False, suffix='.mp3') as tmp_file:
+            audio_file.save(tmp_file.name)
+            tmp_path = tmp_file.name
+
+        # Initialize job status
+        JOBS[job_id] = {
+            'status': 'processing',
+            'result': None,
+            'error': None,
+            'created_at': datetime.now().isoformat()
+        }
+
+        # Start background processing
+        thread = threading.Thread(target=process_audio_job, args=(job_id, tmp_path))
+        thread.daemon = True
+        thread.start()
+
+        print(f"Started async job {job_id}")
+
+        return jsonify({
+            'job_id': job_id,
+            'status': 'processing'
+        }), 202  # 202 Accepted
+
+    except Exception as e:
+        print(f"Error starting async job: {e}")
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/job-status/<job_id>', methods=['GET'])
+def get_job_status(job_id):
+    """Get the status of an async job"""
+    if job_id not in JOBS:
+        return jsonify({'error': 'Job not found'}), 404
+
+    job = JOBS[job_id]
+
+    response = {
+        'job_id': job_id,
+        'status': job['status'],
+        'created_at': job['created_at']
+    }
+
+    if job['status'] == 'completed':
+        response['result'] = job['result']
+    elif job['status'] == 'failed':
+        response['error'] = job['error']
+
+    return jsonify(response)
+
+
+def process_audio_job(job_id, audio_path):
+    """Background worker function to process audio"""
+    try:
+        print(f"Processing job {job_id}...")
+
+        # Load audio and get duration
+        y, sr = librosa.load(audio_path, sr=None, mono=True)
+        duration = float(librosa.get_duration(y=y, sr=sr))
+
+        # Extract features
+        print(f"Job {job_id}: Extracting Librosa features...")
+        audio_features = extract_librosa_features(audio_path)
+
+        print(f"Job {job_id}: Extracting OpenL3 embedding...")
+        openl3_embedding = extract_openl3_embedding(audio_path)
+
+        # Find similar songs
+        similar_songs = []
+        if openl3_embedding:
+            similar_songs = get_similar_songs(openl3_embedding, audio_features, top_k=10)
+
+        # Update job with results
+        JOBS[job_id]['status'] = 'completed'
+        JOBS[job_id]['result'] = {
+            'success': True,
+            'duration': duration,
+            'features': audio_features,
+            'similarSongs': similar_songs
+        }
+
+        print(f"Job {job_id} completed successfully")
+
+    except Exception as e:
+        print(f"Job {job_id} failed: {e}")
+        JOBS[job_id]['status'] = 'failed'
+        JOBS[job_id]['error'] = str(e)
+
+    finally:
+        # Clean up temp file
+        if os.path.exists(audio_path):
+            os.unlink(audio_path)
+
+
 def extract_librosa_features(audio_path):
-    y, sr = librosa.load(audio_path, duration=30.0, sr=22050, mono=True)
+    # Analyze only first 15 seconds instead of 30 for faster processing
+    y, sr = librosa.load(audio_path, duration=15.0, sr=22050, mono=True)
 
     tempo, _ = librosa.beat.beat_track(y=y, sr=sr, hop_length=512)
     tempo = float(tempo) if isinstance(tempo, (int, float, np.number)) else float(tempo[0])
@@ -145,13 +259,21 @@ def extract_librosa_features(audio_path):
 
 
 def extract_openl3_embedding(audio_path):
+    # Load only first 15 seconds for faster processing
     audio, sr = sf.read(audio_path)
 
+    # Limit to 15 seconds
+    max_samples = int(15 * sr)
+    if len(audio) > max_samples:
+        audio = audio[:max_samples]
+
+    # Use smaller embedding size (256 instead of 512) for 2x speedup
     emb, ts = openl3.get_audio_embedding(
         audio,
         sr,
         content_type='music',
-        embedding_size=512
+        embedding_size=256,
+        hop_size=2.0  # Process every 2 seconds instead of default 1 second
     )
 
     avg_emb = np.mean(emb, axis=0)
