@@ -2,14 +2,18 @@ Flask==3.0.0
 flask-cors==4.0.0
 gunicorn==21.2.0
 numpy==1.26.4
-librosa==0.10.1
 soundfile==0.12.1
 requests==2.31.0
-# Install tensorflow first as it's needed by openl3
+# Install tensorflow and dependencies first
 tensorflow==2.15.0
 keras==2.15.0
-openl3==0.4.1
+scikit-image==0.22.0
+scipy==1.11.4
+# Install librosa and resampy
+librosa==0.10.1
 resampy==0.4.2
+# Install openl3 from git to avoid setup.py bug in PyPI version
+git+https://github.com/marl/openl3.git@v0.4.1
 yt-dlp==2023.12.30
 tqdm==4.66.1
 python-dotenv==1.0.0
