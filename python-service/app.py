@@ -14,7 +14,8 @@ app = Flask(__name__)
 CORS(app)
 
 EMBEDDINGS_DB = {}
-EMBEDDINGS_FILE = 'song_database/embeddings.json'
+# Use reduced database to fit in 512MB free tier
+EMBEDDINGS_FILE = 'song_database/embeddings_reduced.json'
 
 # Job storage for async processing
 JOBS = {}  # {job_id: {status, result, error, created_at}}
@@ -166,23 +167,30 @@ def get_job_status(job_id):
 def process_audio_job(job_id, audio_path):
     """Background worker function to process audio"""
     try:
-        print(f"Processing job {job_id}...")
+        print(f"Processing job {job_id}...", flush=True)
 
-        # Load audio and get duration
-        y, sr = librosa.load(audio_path, sr=None, mono=True)
+        # Load audio and get duration (load once, reuse)
+        y, sr = librosa.load(audio_path, sr=22050, mono=True, duration=30.0)
         duration = float(librosa.get_duration(y=y, sr=sr))
 
+        # Free original audio after getting duration
+        del y
+
         # Extract features
-        print(f"Job {job_id}: Extracting Librosa features...")
+        print(f"Job {job_id}: Extracting Librosa features...", flush=True)
         audio_features = extract_librosa_features(audio_path)
 
-        print(f"Job {job_id}: Extracting OpenL3 embedding...")
+        print(f"Job {job_id}: Extracting OpenL3 embedding...", flush=True)
         openl3_embedding = extract_openl3_embedding(audio_path)
 
         # Find similar songs
         similar_songs = []
         if openl3_embedding:
+            print(f"Job {job_id}: Finding similar songs...", flush=True)
             similar_songs = get_similar_songs(openl3_embedding, audio_features, top_k=10)
+
+        # Free embedding after comparison
+        del openl3_embedding
 
         # Update job with results
         JOBS[job_id]['status'] = 'completed'
@@ -193,10 +201,10 @@ def process_audio_job(job_id, audio_path):
             'similarSongs': similar_songs
         }
 
-        print(f"Job {job_id} completed successfully")
+        print(f"Job {job_id} completed successfully", flush=True)
 
     except Exception as e:
-        print(f"Job {job_id} failed: {e}")
+        print(f"Job {job_id} failed: {e}", flush=True)
         JOBS[job_id]['status'] = 'failed'
         JOBS[job_id]['error'] = str(e)
 
@@ -204,6 +212,7 @@ def process_audio_job(job_id, audio_path):
         # Clean up temp file
         if os.path.exists(audio_path):
             os.unlink(audio_path)
+            print(f"Job {job_id}: Cleaned up temp file", flush=True)
 
 
 def extract_librosa_features(audio_path):
@@ -260,17 +269,24 @@ def extract_librosa_features(audio_path):
 
 
 def extract_openl3_embedding(audio_path):
-    # Use librosa instead of soundfile for better compatibility
-    audio, sr = librosa.load(audio_path, sr=None, mono=True)
+    # Load only first 30 seconds to reduce memory usage
+    audio, sr = librosa.load(audio_path, sr=48000, mono=True, duration=30.0)
 
+    # Process in smaller batches to reduce memory
     emb, ts = openl3.get_audio_embedding(
         audio,
         sr,
         content_type='music',
-        embedding_size=512
+        embedding_size=512,
+        hop_size=2.0  # Larger hop size = fewer embeddings = less memory
     )
 
     avg_emb = np.mean(emb, axis=0)
+
+    # Free memory immediately
+    del audio
+    del emb
+
     return avg_emb.tolist()
 
 
