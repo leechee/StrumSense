@@ -12,8 +12,8 @@ scipy==1.11.4
 # Install librosa and resampy
 librosa==0.10.1
 resampy==0.4.2
-# Install openl3 from git to avoid setup.py bug in PyPI version
-git+https://github.com/marl/openl3.git@v0.4.1
+# Use openl3 0.4.2 which doesn't have the setup.py bug
+openl3==0.4.2
 yt-dlp==2023.12.30
 tqdm==4.66.1
 python-dotenv==1.0.0
