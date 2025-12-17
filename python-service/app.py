@@ -5,7 +5,6 @@ import tempfile
 import json
 import numpy as np
 import openl3
-import soundfile as sf
 import librosa
 import uuid
 import threading
@@ -259,21 +258,14 @@ def extract_librosa_features(audio_path):
 
 
 def extract_openl3_embedding(audio_path):
-    # Load only first 15 seconds for faster processing
-    audio, sr = sf.read(audio_path)
+    # Use librosa instead of soundfile for better compatibility
+    audio, sr = librosa.load(audio_path, sr=None, mono=True)
 
-    # Limit to 15 seconds
-    max_samples = int(15 * sr)
-    if len(audio) > max_samples:
-        audio = audio[:max_samples]
-
-    # Use smaller embedding size (256 instead of 512) for 2x speedup
     emb, ts = openl3.get_audio_embedding(
         audio,
         sr,
         content_type='music',
-        embedding_size=256,
-        hop_size=2.0  # Process every 2 seconds instead of default 1 second
+        embedding_size=512
     )
 
     avg_emb = np.mean(emb, axis=0)

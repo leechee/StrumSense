@@ -67,10 +67,9 @@ export default async function handler(req, res) {
 
     const analysisResult = await analyzeAudioFeatures(audioPath);
 
-    // Clean up temp file
-    fs.unlinkSync(audioPath);
-
     if (!analysisResult.success) {
+      // Clean up temp file on error
+      fs.unlinkSync(audioPath);
       return res.status(500).json({
         error: 'Failed to analyze audio',
         details: analysisResult.error
@@ -78,6 +77,7 @@ export default async function handler(req, res) {
     }
 
     // If we got a job ID, return it immediately for polling
+    // Note: Python service will clean up the temp file after processing
     if (analysisResult.jobId) {
       return res.status(202).json({
         success: true,
@@ -85,6 +85,9 @@ export default async function handler(req, res) {
         status: 'processing'
       });
     }
+
+    // Clean up temp file for synchronous response
+    fs.unlinkSync(audioPath);
 
     // Legacy synchronous response (shouldn't happen with async service)
     const { features, similarSongs } = analysisResult;
