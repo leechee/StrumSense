@@ -9,10 +9,10 @@ tensorflow==2.15.0
 keras==2.15.0
 scikit-image==0.22.0
 scipy==1.11.4
-# Install librosa and resampy
+# Install librosa (will pull in compatible resampy version)
 librosa==0.10.1
-resampy==0.4.2
 # Use openl3 0.4.2 which doesn't have the setup.py bug
+# Note: openl3 0.4.2 requires resampy<0.3.0, so don't pin resampy version
 openl3==0.4.2
 yt-dlp==2023.12.30
 tqdm==4.66.1
