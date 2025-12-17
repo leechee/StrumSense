@@ -14,17 +14,39 @@ CORS(app)
 EMBEDDINGS_DB = {}
 EMBEDDINGS_FILE = 'song_database/embeddings.json'
 
+print("=" * 50)
+print("Starting StrumSense Audio Analysis Service")
+print(f"Working directory: {os.getcwd()}")
+print(f"Files in current directory: {os.listdir('.')}")
+if os.path.exists('song_database'):
+    print(f"Files in song_database: {os.listdir('song_database')}")
+print("=" * 50)
+
 print("Loading song embeddings database...")
 if os.path.exists(EMBEDDINGS_FILE):
     with open(EMBEDDINGS_FILE, 'r') as f:
         EMBEDDINGS_DB = json.load(f)
-    print(f"Loaded {len(EMBEDDINGS_DB)} song embeddings")
+    print(f"✓ Loaded {len(EMBEDDINGS_DB)} song embeddings")
 else:
-    print(f"Warning: {EMBEDDINGS_FILE} not found")
+    print(f"✗ Warning: {EMBEDDINGS_FILE} not found")
+    print(f"Current directory contents: {os.listdir('.')}")
+
+@app.route('/', methods=['GET'])
+def root():
+    return jsonify({
+        'service': 'StrumSense Audio Analysis',
+        'status': 'running',
+        'embeddings_loaded': len(EMBEDDINGS_DB) > 0,
+        'total_songs': len(EMBEDDINGS_DB)
+    })
 
 @app.route('/health', methods=['GET'])
 def health():
-    return jsonify({'status': 'ok'})
+    return jsonify({
+        'status': 'ok',
+        'embeddings_loaded': len(EMBEDDINGS_DB) > 0,
+        'total_songs': len(EMBEDDINGS_DB)
+    })
 
 @app.route('/analyze', methods=['POST'])
 def analyze_audio():

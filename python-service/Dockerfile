@@ -21,4 +21,4 @@ EXPOSE 10000
 
 # Start gunicorn with increased timeout for audio processing
 # Use PORT environment variable that Render provides, fallback to 10000
-CMD gunicorn --bind 0.0.0.0:${PORT:-10000} --timeout 120 --workers 1 --threads 2 app:app
+CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:${PORT:-10000} --timeout 120 --workers 1 --threads 2 app:app"]
