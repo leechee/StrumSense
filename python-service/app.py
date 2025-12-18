@@ -237,11 +237,11 @@ def extract_librosa_features(audio_path):
     detected_mode = 'Major'
 
     for i in range(12):
-        major_rotated = np.roll(major_profile, i)
-        minor_rotated = np.roll(minor_profile, i)
+        # Roll the chroma values, not the profiles
+        chroma_rotated = np.roll(chroma_vals, -i)
 
-        major_corr = np.correlate(chroma_vals, major_rotated)[0]
-        minor_corr = np.correlate(chroma_vals, minor_rotated)[0]
+        major_corr = np.correlate(chroma_rotated, major_profile)[0]
+        minor_corr = np.correlate(chroma_rotated, minor_profile)[0]
 
         if major_corr > max_corr:
             max_corr = major_corr
