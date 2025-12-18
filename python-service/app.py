@@ -13,8 +13,8 @@ app = Flask(__name__)
 CORS(app)
 
 EMBEDDINGS_DB = {}
-# Use reduced database to fit in 512MB free tier
-EMBEDDINGS_FILE = 'song_database/embeddings_reduced.json'
+# Use full database now that we removed TensorFlow/OpenL3
+EMBEDDINGS_FILE = 'song_database/embeddings.json'
 
 # Job storage for async processing
 JOBS = {}  # {job_id: {status, result, error, created_at}}
@@ -296,24 +296,25 @@ def extract_openl3_embedding(audio_path):
     # Tonnetz (harmonic features)
     tonnetz = librosa.feature.tonnetz(y=y, sr=sr, hop_length=512)
 
-    # Combine into 128-dimensional feature vector (smaller than 512 but still effective)
+    # Combine into feature vector and pad to 512 dimensions to match database
     feature_vector = np.concatenate([
-        mfcc_mean[:20],                              # 20 features
-        mfcc_std[:20],                               # 20 features
-        np.mean(spectral_centroid, axis=1)[:10],     # 10 features
-        np.mean(spectral_rolloff, axis=1)[:10],      # 10 features
-        np.mean(spectral_contrast, axis=1)[:7],      # 7 features
-        np.mean(spectral_bandwidth, axis=1)[:10],    # 10 features
-        np.mean(chroma, axis=1)[:12],                # 12 features
-        np.mean(zcr, axis=1)[:5],                    # 5 features
-        np.mean(tonnetz, axis=1)[:6]                 # 6 features
+        mfcc_mean,                                   # 20 features
+        mfcc_std,                                    # 20 features
+        np.mean(spectral_centroid, axis=1),          # 1 feature
+        np.mean(spectral_rolloff, axis=1),           # 1 feature
+        np.mean(spectral_contrast, axis=1),          # 7 features
+        np.mean(spectral_bandwidth, axis=1),         # 1 feature
+        np.mean(chroma, axis=1),                     # 12 features
+        np.mean(zcr, axis=1),                        # 1 feature
+        np.mean(tonnetz, axis=1)                     # 6 features
     ])
 
-    # Pad to 128 dimensions if needed
-    if len(feature_vector) < 128:
-        feature_vector = np.pad(feature_vector, (0, 128 - len(feature_vector)))
+    # Pad to 512 dimensions to match precomputed OpenL3 embeddings
+    # This allows cosine similarity to work correctly
+    if len(feature_vector) < 512:
+        feature_vector = np.pad(feature_vector, (0, 512 - len(feature_vector)))
     else:
-        feature_vector = feature_vector[:128]
+        feature_vector = feature_vector[:512]
 
     # Free memory
     del y, mfccs
