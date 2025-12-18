@@ -168,12 +168,13 @@ def process_audio_job(job_id, audio_path):
     try:
         print(f"Processing job {job_id}...", flush=True)
 
-        # Load audio and get duration (load once, reuse)
-        y, sr = librosa.load(audio_path, sr=22050, mono=True, duration=30.0)
-        duration = float(librosa.get_duration(y=y, sr=sr))
+        # Get FULL duration first (without duration limit)
+        y_full, sr_full = librosa.load(audio_path, sr=22050, mono=True)
+        duration = float(librosa.get_duration(y=y_full, sr=sr_full))
+        print(f"Job {job_id}: Full audio duration: {duration:.1f}s", flush=True)
 
-        # Free original audio after getting duration
-        del y
+        # Free full audio after getting duration
+        del y_full, sr_full
 
         # Extract features
         print(f"Job {job_id}: Extracting Librosa features...", flush=True)
