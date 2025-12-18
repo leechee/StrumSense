@@ -89,7 +89,6 @@ export default function Home() {
     try {
       const formData = new FormData();
       formData.append('audio', audioFile);
-      formData.append('mood', mood);
       formData.append('userId', localStorage.getItem('userId') || `user_${Date.now()}`);
 
       if (!localStorage.getItem('userId')) {
@@ -324,7 +323,7 @@ export default function Home() {
             <div className={styles.recommendationsSection}>
               <h2>Recommended Songs to Cover</h2>
               <p className={styles.recDescription}>
-                Based on audio fingerprint analysis{mood && ` and ${mood} mood`}
+                Based on audio fingerprint analysis
               </p>
 
               <div className={styles.songsList}>
