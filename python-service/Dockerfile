@@ -12,11 +12,11 @@ RUN apt-get update && apt-get install -y \
 # Set working directory
 WORKDIR /app
 
-# Copy requirements and install Python dependencies
-COPY requirements.txt .
+# Copy requirements and install Python dependencies (lightweight - no TensorFlow/OpenL3)
+COPY requirements_lightweight.txt .
 # Upgrade pip first
 RUN pip install --no-cache-dir --upgrade pip
-# Install all dependencies except openl3 first
+# Install lightweight dependencies only (no TensorFlow, no OpenL3)
 RUN pip install --no-cache-dir --timeout=1000 \
     Flask==3.0.0 \
     flask-cors==4.0.0 \
@@ -24,18 +24,9 @@ RUN pip install --no-cache-dir --timeout=1000 \
     numpy==1.26.4 \
     soundfile==0.12.1 \
     requests==2.31.0 \
-    tensorflow==2.15.0 \
-    keras==2.15.0 \
-    scikit-image==0.22.0 \
     scipy==1.11.4 \
     librosa==0.10.1 \
-    yt-dlp==2023.12.30 \
-    tqdm==4.66.1 \
     python-dotenv==1.0.0
-# Install openl3 separately with retries
-RUN pip install --no-cache-dir --timeout=2000 --retries 5 openl3==0.4.2 || \
-    pip install --no-cache-dir --timeout=2000 --retries 5 openl3==0.4.2 || \
-    pip install --no-cache-dir --timeout=2000 --retries 5 openl3==0.4.2
 
 # Copy application code
 COPY . .

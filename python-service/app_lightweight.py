@@ -13,14 +13,14 @@ app = Flask(__name__)
 CORS(app)
 
 EMBEDDINGS_DB = {}
-# Use reduced database to fit in 512MB free tier
-EMBEDDINGS_FILE = 'song_database/embeddings_reduced.json'
+# Use librosa-only features (no OpenL3/TensorFlow)
+EMBEDDINGS_FILE = 'song_database/embeddings_librosa_only.json'
 
 # Job storage for async processing
 JOBS = {}  # {job_id: {status, result, error, created_at}}
 
 print("=" * 50, flush=True)
-print("Starting StrumSense Audio Analysis Service", flush=True)
+print("Starting StrumSense Audio Analysis Service (Lightweight)", flush=True)
 print(f"Working directory: {os.getcwd()}", flush=True)
 print(f"Files in current directory: {os.listdir('.')}", flush=True)
 if os.path.exists('song_database'):
@@ -36,12 +36,12 @@ if os.path.exists(EMBEDDINGS_FILE):
     print(f"✓ Loaded {len(EMBEDDINGS_DB)} song embeddings", flush=True)
 else:
     print(f"✗ Warning: {EMBEDDINGS_FILE} not found", flush=True)
-    print(f"Current directory contents: {os.listdir('.')}", flush=True)
+    print(f"Will create lightweight embeddings from existing data", flush=True)
 
 @app.route('/', methods=['GET'])
 def root():
     return jsonify({
-        'service': 'StrumSense Audio Analysis',
+        'service': 'StrumSense Audio Analysis (Lightweight)',
         'status': 'running',
         'embeddings_loaded': len(EMBEDDINGS_DB) > 0,
         'total_songs': len(EMBEDDINGS_DB)
@@ -50,54 +50,11 @@ def root():
 @app.route('/health', methods=['GET'])
 def health():
     return jsonify({
-        'status': 'ok',
+        'status': 'healthy',
         'embeddings_loaded': len(EMBEDDINGS_DB) > 0,
-        'total_songs': len(EMBEDDINGS_DB)
+        'num_embeddings': len(EMBEDDINGS_DB),
+        'version': '1.0-lightweight'
     })
-
-@app.route('/analyze', methods=['POST'])
-def analyze_audio():
-    try:
-        if 'audio' not in request.files:
-            return jsonify({'error': 'No audio file provided'}), 400
-
-        audio_file = request.files['audio']
-
-        with tempfile.NamedTemporaryFile(delete=False, suffix='.mp3') as tmp_file:
-            audio_file.save(tmp_file.name)
-            tmp_path = tmp_file.name
-
-        try:
-            y, sr = librosa.load(tmp_path, sr=None, mono=True)
-            duration = float(librosa.get_duration(y=y, sr=sr))
-
-            print("Extracting Librosa features...")
-            audio_features = extract_librosa_features(tmp_path)
-
-            print("Extracting OpenL3 embedding...")
-            openl3_embedding = extract_openl3_embedding(tmp_path)
-
-            similar_songs = []
-            if openl3_embedding:
-                similar_songs = get_similar_songs(openl3_embedding, audio_features, top_k=10)
-
-            result = {
-                'success': True,
-                'duration': duration,
-                'features': audio_features,
-                'similarSongs': similar_songs
-            }
-
-            return jsonify(result)
-
-        finally:
-            if os.path.exists(tmp_path):
-                os.unlink(tmp_path)
-
-    except Exception as e:
-        print(f"Error analyzing audio: {e}")
-        return jsonify({'error': str(e)}), 500
-
 
 @app.route('/analyze-async', methods=['POST'])
 def analyze_audio_async():
@@ -129,7 +86,7 @@ def analyze_audio_async():
         thread.daemon = True
         thread.start()
 
-        print(f"Started async job {job_id}")
+        print(f"Started async job {job_id}", flush=True)
 
         return jsonify({
             'job_id': job_id,
@@ -137,7 +94,7 @@ def analyze_audio_async():
         }), 202  # 202 Accepted
 
     except Exception as e:
-        print(f"Error starting async job: {e}")
+        print(f"Error starting async job: {e}", flush=True)
         return jsonify({'error': str(e)}), 500
 
 
@@ -168,28 +125,29 @@ def process_audio_job(job_id, audio_path):
     try:
         print(f"Processing job {job_id}...", flush=True)
 
-        # Load audio and get duration (load once, reuse)
+        # Load audio and get duration
         y, sr = librosa.load(audio_path, sr=22050, mono=True, duration=30.0)
         duration = float(librosa.get_duration(y=y, sr=sr))
 
-        # Free original audio after getting duration
+        # Extract librosa features
+        print(f"Job {job_id}: Extracting audio features...", flush=True)
+        audio_features = extract_librosa_features(y, sr)
+
+        # Extract extended features for similarity matching
+        print(f"Job {job_id}: Extracting extended features...", flush=True)
+        extended_features = extract_extended_features(y, sr)
+
+        # Free audio memory
         del y
 
-        # Extract features
-        print(f"Job {job_id}: Extracting Librosa features...", flush=True)
-        audio_features = extract_librosa_features(audio_path)
-
-        print(f"Job {job_id}: Extracting OpenL3 embedding...", flush=True)
-        openl3_embedding = extract_openl3_embedding(audio_path)
-
-        # Find similar songs
+        # Find similar songs based on librosa features only
         similar_songs = []
-        if openl3_embedding:
+        if extended_features:
             print(f"Job {job_id}: Finding similar songs...", flush=True)
-            similar_songs = get_similar_songs(openl3_embedding, audio_features, top_k=10)
+            similar_songs = get_similar_songs(extended_features, audio_features, top_k=10)
 
-        # Free embedding after comparison
-        del openl3_embedding
+        # Free features
+        del extended_features
 
         # Update job with results
         JOBS[job_id]['status'] = 'completed'
@@ -214,10 +172,8 @@ def process_audio_job(job_id, audio_path):
             print(f"Job {job_id}: Cleaned up temp file", flush=True)
 
 
-def extract_librosa_features(audio_path):
-    # Analyze only first 15 seconds instead of 30 for faster processing
-    y, sr = librosa.load(audio_path, duration=15.0, sr=22050, mono=True)
-
+def extract_librosa_features(y, sr):
+    """Extract basic librosa features for display"""
     tempo, _ = librosa.beat.beat_track(y=y, sr=sr, hop_length=512)
     tempo = float(tempo) if isinstance(tempo, (int, float, np.number)) else float(tempo[0])
 
@@ -267,17 +223,10 @@ def extract_librosa_features(audio_path):
     }
 
 
-def extract_openl3_embedding(audio_path):
-    """
-    Extract lightweight audio features to match against precomputed OpenL3 embeddings.
-    Uses MFCC + spectral features instead of OpenL3 to avoid TensorFlow memory overhead.
-    """
-    # Load audio (30 seconds max)
-    y, sr = librosa.load(audio_path, sr=22050, mono=True, duration=30.0)
-
-    # Extract MFCC features (mel-frequency cepstral coefficients)
-    # These capture timbral characteristics similar to OpenL3 but much lighter
-    mfccs = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=20, hop_length=512)
+def extract_extended_features(y, sr):
+    """Extract extended features for similarity matching (replaces OpenL3)"""
+    # MFCC features (13 coefficients, more distinctive than chroma alone)
+    mfccs = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=13, hop_length=512)
     mfcc_mean = np.mean(mfccs, axis=1)
     mfcc_std = np.std(mfccs, axis=1)
 
@@ -285,38 +234,19 @@ def extract_openl3_embedding(audio_path):
     spectral_centroid = librosa.feature.spectral_centroid(y=y, sr=sr, hop_length=512)
     spectral_rolloff = librosa.feature.spectral_rolloff(y=y, sr=sr, hop_length=512)
     spectral_contrast = librosa.feature.spectral_contrast(y=y, sr=sr, hop_length=512)
-    spectral_bandwidth = librosa.feature.spectral_bandwidth(y=y, sr=sr, hop_length=512)
 
     # Chroma features
     chroma = librosa.feature.chroma_stft(y=y, sr=sr, hop_length=512)
 
-    # Zero crossing rate (percussiveness indicator)
-    zcr = librosa.feature.zero_crossing_rate(y=y, hop_length=512)
-
-    # Tonnetz (harmonic features)
-    tonnetz = librosa.feature.tonnetz(y=y, sr=sr, hop_length=512)
-
-    # Combine into 128-dimensional feature vector (smaller than 512 but still effective)
+    # Combine into feature vector (similar to OpenL3 but much lighter)
     feature_vector = np.concatenate([
-        mfcc_mean[:20],                              # 20 features
-        mfcc_std[:20],                               # 20 features
-        np.mean(spectral_centroid, axis=1)[:10],     # 10 features
-        np.mean(spectral_rolloff, axis=1)[:10],      # 10 features
-        np.mean(spectral_contrast, axis=1)[:7],      # 7 features
-        np.mean(spectral_bandwidth, axis=1)[:10],    # 10 features
-        np.mean(chroma, axis=1)[:12],                # 12 features
-        np.mean(zcr, axis=1)[:5],                    # 5 features
-        np.mean(tonnetz, axis=1)[:6]                 # 6 features
+        mfcc_mean,           # 13 features
+        mfcc_std,            # 13 features
+        np.mean(spectral_centroid, axis=1),  # 1 feature
+        np.mean(spectral_rolloff, axis=1),   # 1 feature
+        np.mean(spectral_contrast, axis=1),  # 7 features
+        np.mean(chroma, axis=1)              # 12 features
     ])
-
-    # Pad to 128 dimensions if needed
-    if len(feature_vector) < 128:
-        feature_vector = np.pad(feature_vector, (0, 128 - len(feature_vector)))
-    else:
-        feature_vector = feature_vector[:128]
-
-    # Free memory
-    del y, mfccs
 
     return feature_vector.tolist()
 
@@ -358,24 +288,26 @@ def calculate_librosa_similarity(features1, features2):
     return score / total_weight if total_weight > 0 else 0
 
 
-def get_similar_songs(embedding, uploaded_features, top_k=10):
-    if not EMBEDDINGS_DB or not embedding:
+def get_similar_songs(feature_vector, uploaded_features, top_k=10):
+    if not EMBEDDINGS_DB or not feature_vector:
         return []
 
     similarities = []
     for song_id, song_data in EMBEDDINGS_DB.items():
-        openl3_similarity = cosine_similarity(embedding, song_data['embedding'])
+        # Use extended feature similarity instead of OpenL3
+        feature_similarity = cosine_similarity(feature_vector, song_data['features'])
 
         librosa_similarity = calculate_librosa_similarity(uploaded_features, song_data)
 
-        final_similarity = (0.70 * openl3_similarity) + (0.30 * librosa_similarity)
+        # Weight feature similarity more (since it's more detailed than basic librosa)
+        final_similarity = (0.70 * feature_similarity) + (0.30 * librosa_similarity)
 
         similarities.append({
             'id': song_id,
             'title': song_data['title'],
             'artist': song_data['artist'],
             'similarity_score': float(final_similarity),
-            'openl3_score': float(openl3_similarity),
+            'openl3_score': float(feature_similarity),  # Keep same key for frontend compatibility
             'librosa_score': float(librosa_similarity),
             'tempo': song_data.get('tempo'),
             'key': song_data.get('key'),
