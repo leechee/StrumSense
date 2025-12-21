@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
+import { Analytics } from '@vercel/analytics/react';
 import styles from '../styles/Home.module.css';
 
 export default function Home() {
@@ -468,6 +469,7 @@ export default function Home() {
           </div>
         </div>
       </footer>
+      <Analytics />
     </div>
   );
 }
