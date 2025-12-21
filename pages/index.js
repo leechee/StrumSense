@@ -35,8 +35,8 @@ export default function Home() {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      if (file.size > 4 * 1024 * 1024) {
-        setError('File size must be less than 4MB');
+      if (file.size > 6 * 1024 * 1024) {
+        setError('File size must be less than 6MB');
         return;
       }
       setAudioFile(file);
@@ -173,7 +173,7 @@ export default function Home() {
                   ) : (
                     <>
                       <p className={styles.uploadText}>Click to upload or drag and drop</p>
-                      <p className={styles.fileHint}>MP3, WAV, M4A (max 4MB)</p>
+                      <p className={styles.fileHint}>MP3, WAV, M4A (max 6MB)</p>
                     </>
                   )}
                 </div>
@@ -181,7 +181,7 @@ export default function Home() {
               <input
                 id="audio"
                 type="file"
-                accept="audio/*"
+                accept="audio/mpeg,audio/mp3,audio/wav,audio/x-m4a,audio/*"
                 onChange={handleFileChange}
                 className={styles.fileInput}
               />
@@ -229,8 +229,8 @@ export default function Home() {
         {isAnalyzing && (
           <div className={styles.loading}>
             <div className={styles.spinner}></div>
-            <p>Analyzing your acoustic performance...</p>
-            <p className={styles.loadingHint}>This may take 1-4 minutes</p>
+            <p>Analyzing your performance...</p>
+            <p className={styles.loadingHint}>This may take 1-2 minutes</p>
             <p className={styles.elapsedTime}>{Math.floor(elapsedTime / 60)}:{(elapsedTime % 60).toString().padStart(2, '0')}</p>
           </div>
         )}
@@ -387,18 +387,6 @@ export default function Home() {
                         <div className={styles.detailsRow}>
                           <span className={styles.detailLabel}>Difficulty:</span>
                           <span>{song.difficulty}/100</span>
-                        </div>
-                      )}
-                      {song.openl3Score && (
-                        <div className={styles.detailsRow}>
-                          <span className={styles.detailLabel}>OpenL3:</span>
-                          <span>{song.openl3Score}%</span>
-                        </div>
-                      )}
-                      {song.librosaScore && (
-                        <div className={styles.detailsRow}>
-                          <span className={styles.detailLabel}>Librosa:</span>
-                          <span>{song.librosaScore}%</span>
                         </div>
                       )}
                     </div>
