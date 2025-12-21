@@ -35,8 +35,8 @@ export default function Home() {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      if (file.size > 6 * 1024 * 1024) {
-        setError('File size must be less than 6MB');
+      if (file.size > 4.5 * 1024 * 1024) {
+        setError('File size must be less than 4.5MB');
         return;
       }
       setAudioFile(file);
@@ -173,7 +173,7 @@ export default function Home() {
                   ) : (
                     <>
                       <p className={styles.uploadText}>Click to upload or drag and drop</p>
-                      <p className={styles.fileHint}>MP3, WAV, M4A (max 6MB)</p>
+                      <p className={styles.fileHint}>MP3, WAV, M4A (max 4.5MB)</p>
                     </>
                   )}
                 </div>
