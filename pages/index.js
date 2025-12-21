@@ -324,7 +324,7 @@ export default function Home() {
             <div className={styles.recommendationsSection}>
               <h2>Recommended Songs to Cover</h2>
               <p className={styles.recDescription}>
-                Based on audio fingerprint analysis
+                Based on AI audio fingerprint analysis
               </p>
 
               <div className={styles.songsList}>
