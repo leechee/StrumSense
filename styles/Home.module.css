@@ -1138,8 +1138,15 @@
   }
 
   .moodGrid {
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
     gap: 2rem 2rem;
+  }
+
+  /* Hide knobs 3-7 on mobile (keep only first 2) */
+  .moodButton:nth-child(n+3) {
+    display: none;
   }
 
   .submitButton {
