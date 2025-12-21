@@ -48,7 +48,7 @@ export default async function handler(req, res) {
     const form = formidable({
       uploadDir: uploadDir,
       keepExtensions: true,
-      maxFileSize: 4.5 * 1024 * 1024,
+      maxFileSize: 6 * 1024 * 1024,
     });
 
     if (!fs.existsSync(uploadDir)) {
